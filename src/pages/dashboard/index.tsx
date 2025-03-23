@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TableProps, Tag, Space } from "antd";
 import DataTable from "../../components/DataTable";
 import PageContent from "../../components/PageContent";

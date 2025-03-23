@@ -2,6 +2,8 @@ import { ConfigProvider } from "antd";
 import { RouterProvider } from "react-router-dom";
 import router from "./routers";
 import "./App.css";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
         algorithm: undefined,
       }}
     >
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </ConfigProvider>
   );
 }

@@ -3,6 +3,7 @@ import { Layout, theme } from "antd";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 const { Content } = Layout;
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = () => {
   const {
@@ -28,6 +29,7 @@ const MainLayout = () => {
           <Outlet />
         </Content>
       </Layout>
+      <ToastContainer draggable draggableDirection="y" />
     </Layout>
   );
 };

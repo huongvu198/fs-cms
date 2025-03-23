@@ -15,6 +15,12 @@ interface ResponseError {
   };
 }
 
+export interface IErrorResponse {
+  errorCode: string;
+  message: string;
+  statusCode: number;
+}
+
 export interface IPagingResponse<T = unknown> {
   items: T;
   headers: {
