@@ -1,0 +1,19 @@
+{
+  "dashboard": "Bảng Điều Khiển",
+  "profile": "Hồ Sơ",
+  "view_profile": "Xem Hồ Sơ",
+  "edit_profile": "Chỉnh Sửa Hồ Sơ",
+  "product_management": "Quản lý sản phẩm",
+  "product_list": "Danh sách sản phẩm",
+  "product_add": "Thêm mới sản phẩm",
+  "product_info_basic": "Thông tin cơ bản",
+  "product_info_sale": "Thông tin bán hàng",
+  "product_other_info": "Thông tin khác",
+  "product_name": "Tên sản phẩm",
+  "product_price": "Giá sản phẩm",
+  "product_sex": "Giới tính",
+  "product_category": "Danh mục sản phẩm",
+  "product_description": "Mô tả sản phẩm",
+  "product_display": "Hiển thị sản phẩm",
+  "next_step": "Tiếp tục"
+}

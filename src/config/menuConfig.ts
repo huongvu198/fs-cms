@@ -1,29 +1,47 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { MenuProps } from "antd";
-import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
-import { Dashboard } from "./routeConfig";
+import {
+  UserOutlined,
+  LaptopOutlined,
+  ProductOutlined,
+} from "@ant-design/icons";
+import { Dashboard, Product } from "./routeConfig";
+import { useTranslation } from "react-i18next";
 
-const menuItems: MenuProps["items"] = [
-  {
-    key: Dashboard,
-    icon: React.createElement(LaptopOutlined),
-    label: "Dashboard",
-  },
-  {
-    key: "/profile",
-    icon: React.createElement(UserOutlined),
-    label: "Profile",
-    children: [
+const useMenuItems = () => {
+  const { t, i18n } = useTranslation();
+
+  const menuItems: MenuProps["items"] = useMemo(() => {
+    return [
       {
-        key: "/profile/view",
-        label: "View Profile",
+        key: Product,
+        icon: React.createElement(ProductOutlined),
+        label: t("product_management"),
       },
       {
-        key: "/profile/edit",
-        label: "Edit Profile",
+        key: Dashboard,
+        icon: React.createElement(LaptopOutlined),
+        label: t("dashboard"),
       },
-    ],
-  },
-];
+      {
+        key: "/profile",
+        icon: React.createElement(UserOutlined),
+        label: t("profile"),
+        children: [
+          {
+            key: "/profile/view",
+            label: t("view_profile"),
+          },
+          {
+            key: "/profile/edit",
+            label: t("edit_profile"),
+          },
+        ],
+      },
+    ];
+  }, [t, i18n.language]);
 
-export default menuItems;
+  return menuItems;
+};
+
+export default useMenuItems;
