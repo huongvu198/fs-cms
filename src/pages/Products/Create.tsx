@@ -1,37 +1,43 @@
+import { useState } from "react";
 import { Tabs, TabsProps } from "antd";
 import PageContent from "../../components/common/PageContent";
 import { useTranslation } from "react-i18next";
 import BasicInfo from "../../components/Products/BasicInfo";
 import SaleInfo from "../../components/Products/SaleInfo";
+
 const AddProduct = () => {
   const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState<string>("1");
 
   const onChange = (key: string) => {
-    console.log(key);
+    setActiveTab(key);
+  };
+
+  const handleBack = () => {
+    setActiveTab((prev) => (Number(prev) - 1).toString());
+  };
+
+  const handleNext = () => {
+    setActiveTab((prev) => (Number(prev) + 1).toString());
   };
 
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: t("product_info_basic"),
-      children: <BasicInfo />,
+      children: <BasicInfo handleNext={handleNext} />,
     },
     {
       key: "2",
       label: t("product_info_sale"),
-      children: <SaleInfo />,
-    },
-    {
-      key: "3",
-      label: t("product_other_info"),
-      children: "Content of Tab Pane 3",
+      children: <SaleInfo handleBack={handleBack} />,
     },
   ];
 
   return (
     <>
       <PageContent title={t("product_add")}>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs activeKey={activeTab} onChange={onChange} items={items} />
       </PageContent>
     </>
   );

@@ -15,5 +15,18 @@
   "product_category": "Danh mục sản phẩm",
   "product_description": "Mô tả sản phẩm",
   "product_display": "Hiển thị sản phẩm",
-  "next_step": "Tiếp tục"
+  "product_sub_category": "Danh mục con",
+  "next_step": "Tiếp tục",
+  "back_step": "Quay lại",
+  "submit_step": "Xác nhận tạo",
+  "quantity": "Số lượng",
+  "color": "Chọn màu sắc",
+  "size": "Kích cỡ",
+  "image": "Ảnh mô tả",
+  "discount": "Giảm giá (%)",
+  "size&quantity": "Kích cỡ & số lượng",
+  "add_size&quantity": "Thêm Kích cỡ & số lượng",
+  "upload": "Tải ảnh",
+  "add_variants": "Thêm biến thể",
+  "remove_variants": "Xoá biến thể"
 }
