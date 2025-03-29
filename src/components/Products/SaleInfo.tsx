@@ -20,6 +20,7 @@ import clothingColors from "../../shared/constants";
 import { t } from "i18next";
 import { FileType, getBase64 } from "../../shared/file";
 import { SaleInfoProps } from "../../props/Products/SaleInfoProps";
+import { uploadMultipleImages } from "../../services/cloundinary";
 
 const UploadImage = ({ field }: { field: any }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -247,8 +248,28 @@ const SaleInfo = ({ handleBack }: SaleInfoProps) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log("Dữ liệu gửi đi:", values);
+  const onFinish = async (values: any) => {
+    try {
+      const filesToUpload = values.variants
+        .map((variant: any) => variant.image?.[0]?.originFileObj)
+        .filter((file: File | undefined) => file !== undefined);
+
+      const uploadedUrls = await uploadMultipleImages(filesToUpload);
+
+      const updatedVariants = values.variants.map(
+        (variant: any, index: number) => ({
+          ...variant,
+          image: uploadedUrls[index] || variant.image,
+        })
+      );
+
+      const updatedValues = { ...values, variants: updatedVariants };
+
+      console.log("Dữ liệu gửi đi:", updatedValues);
+      // Gửi updatedValues lên server
+    } catch (error) {
+      console.error("Lỗi upload ảnh:", error);
+    }
   };
 
   return (
