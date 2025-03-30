@@ -11,7 +11,7 @@ const MainLayout = () => {
   } = theme.useToken();
 
   return (
-    <Layout style={{ flex: 1, height: "100vh" }}>
+    <Layout style={{ flex: 1, minHeight: "100vh" }}>
       <Layout
         style={{
           background: colorBgContainer,

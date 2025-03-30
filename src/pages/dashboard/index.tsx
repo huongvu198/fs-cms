@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TableProps, Tag, Space } from "antd";
-import DataTable from "../../components/DataTable";
-import PageContent from "../../components/PageContent";
-import SearchFilter from "../../components/SearchFilter";
+import DataTable from "../../components/common/DataTable";
+import PageContent from "../../components/common/PageContent";
+import SearchFilter from "../../components/common/SearchFilter";
 interface DataType {
   key: string;
   name: string;
