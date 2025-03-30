@@ -36,7 +36,7 @@ const segmentSlice = createSlice({
           state.segment = action.payload;
         }
       )
-      .addCase(getSegments.rejected, (state, action) => {
+      .addCase(getSegments.rejected, () => {
         showToast(ToastType.ERROR, "Fetch segment faild");
       });
   },

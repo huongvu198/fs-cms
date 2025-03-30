@@ -1,7 +1,7 @@
 import React from "react";
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import useMenuItems from "../config/menuConfig";
 
 const { Sider } = Layout;
@@ -9,12 +9,12 @@ const { Sider } = Layout;
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const menuItems = useMenuItems();
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
   // Hàm đổi ngôn ngữ
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  // const changeLanguage = (lng: string) => {
+  //   i18n.changeLanguage(lng);
+  // };
 
   return (
     <Sider width={200} style={{ background: "#fff", maxHeight: "100vh" }}>

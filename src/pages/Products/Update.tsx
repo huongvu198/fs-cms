@@ -8,7 +8,6 @@ import { AppDispatch } from "../../redux/store";
 import { getSegments, getListSegment } from "../../redux/segmentSlice";
 import TitleComponent from "../../components/common/Title";
 import {
-  createProduct,
   detailProduct,
   getLoading,
   getProduct,
