@@ -39,12 +39,12 @@ const Sidebar: React.FC = () => {
         onClick={({ key }) => navigate(key)}
       />
 
-      <div style={{ textAlign: "center", padding: "16px" }}>
+      {/* <div style={{ textAlign: "center", padding: "16px" }}>
         <Button onClick={() => changeLanguage("en")}>English</Button>
         <Button onClick={() => changeLanguage("vi")} style={{ marginLeft: 8 }}>
           Tiếng Việt
         </Button>
-      </div>
+      </div> */}
     </Sider>
   );
 };

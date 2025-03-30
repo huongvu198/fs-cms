@@ -1,4 +1,4 @@
-const clothingColors = [
+export const colors = [
   { name: "Đen", code: "#000000" },
   { name: "Trắng", code: "#FFFFFF" },
   { name: "Xám", code: "#808080" },
@@ -16,4 +16,40 @@ const clothingColors = [
   { name: "Hồng", code: "#FFC0CB" },
 ];
 
-export default clothingColors;
+export const shirtSizes = [
+  { key: "S", value: "S" },
+  { key: "M", value: "M" },
+  { key: "L", value: "L" },
+  { key: "XL", value: "XL" },
+  { key: "XXL", value: "XXL" },
+  { key: "3XL", value: "3XL" },
+  { key: "4XL", value: "4XL" },
+  { key: "5XL", value: "5XL" },
+  { key: "6XL", value: "6XL" },
+];
+
+export const pantsSizes = [
+  { key: "24", value: "24" },
+  { key: "25", value: "25" },
+  { key: "26", value: "26" },
+  { key: "27", value: "27" },
+  { key: "28", value: "28" },
+  { key: "29", value: "29" },
+  { key: "30", value: "30" },
+  { key: "31", value: "31" },
+  { key: "32", value: "32" },
+  { key: "33", value: "33" },
+  { key: "34", value: "34" },
+  { key: "35", value: "35" },
+  { key: "36", value: "36" },
+  { key: "37", value: "37" },
+  { key: "38", value: "38" },
+  { key: "39", value: "39" },
+  { key: "40", value: "40" },
+  { key: "41", value: "41" },
+  { key: "42", value: "42" },
+  { key: "43", value: "43" },
+  { key: "44", value: "44" },
+];
+
+export const DefaultPerPage = 20;

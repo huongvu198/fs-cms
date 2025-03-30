@@ -5,6 +5,7 @@ import "./App.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import "./config/i18nConfig";
+import { IntlProvider } from "react-intl";
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
       }}
     >
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <IntlProvider locale="vi-VN">
+          <RouterProvider router={router} />
+        </IntlProvider>
       </Provider>
     </ConfigProvider>
   );
