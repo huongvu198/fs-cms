@@ -24,12 +24,9 @@ const AddProduct = () => {
   const isLoading = useSelector(getLoading);
   const basicInfoFormRef = useRef<FormInstance>(null);
   const saleInfoFormRef = useRef<FormInstance>(null);
-  const segmment = useSelector(getSegments);
 
   useEffect(() => {
-    if (!segmment) {
-      dispatch(getSegments());
-    }
+    dispatch(getSegments());
   }, []);
 
   const handleSubmit = async () => {

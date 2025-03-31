@@ -35,11 +35,9 @@ const UpdateProduct = () => {
   const saleInfoFormRef = useRef<FormInstance>(null);
 
   useEffect(() => {
-    if (!segmentList) {
-      dispatch(getSegments());
-    }
     if (id) {
       dispatch(detailProduct(id));
+      dispatch(getSegments());
     }
   }, [id]);
 

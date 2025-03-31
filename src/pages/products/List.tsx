@@ -12,6 +12,7 @@ import {
   Checkbox,
   Select,
   Modal,
+  Spin,
 } from "antd";
 import {
   EyeOutlined,
@@ -32,6 +33,7 @@ import { IProductResponse } from "../../interfaces/product.interface";
 import { ListProductProps } from "../../props/Products/ListProductProps";
 import { DefaultPerPage } from "../../shared/constants";
 import { FormattedNumber } from "react-intl";
+import { getSegments } from "../../redux/segmentSlice";
 
 const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const products = useSelector(getProducts);
@@ -171,7 +173,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
             style={{ width: 200 }}
             onPressEnter={handleSearch}
           />
-          <Button type="primary" onClick={handleSearch} loading={isLoading}>
+          <Button type="primary" onClick={handleSearch}>
             Tìm kiếm
           </Button>
           <Button

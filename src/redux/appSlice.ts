@@ -60,7 +60,6 @@ export const appSlice = createSlice({
         state.isLoading = false;
         state.masterData = action.payload.data;
         state.masterDataRecordId = action.payload._id;
-        console.log("ction.payload.data", action.payload.data);
       })
       .addCase(getMasterData.rejected, (state) => {
         state.isLoading = false;
