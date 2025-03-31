@@ -15,6 +15,10 @@ const endPoint = {
     ARCHIVE: `${EApiTags}/product/archive`,
     DETAIL: `${EApiTags}/product`,
   },
+  MASTER_DATA: {
+    GET: `${EApiTags}/master-data`,
+    UPDATE: `${EApiTags}/master-data/update`,
+  },
 };
 
 export default endPoint;

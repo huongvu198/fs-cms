@@ -19,7 +19,12 @@ import { t } from "i18next";
 import { FileType, getBase64 } from "../../../shared/file";
 import { SaleInfoRef } from "../../../props/Products/SaleInfoProps";
 import { uploadMultipleImages } from "../../../services/cloundinary";
-import { colors, shirtSizes } from "../../../shared/constants";
+import { useSelector } from "react-redux";
+import {
+  getColors,
+  getPantsSizes,
+  getShirtSizes,
+} from "../../../redux/appSlice";
 
 const UploadImage = ({ field }: { field: any }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -94,8 +99,8 @@ const ColorPickerField = ({
 }) => {
   const { t } = useTranslation();
   const form = Form.useFormInstance();
+  const colors = useSelector(getColors);
 
-  // Lấy danh sách màu đã chọn
   const selectedColors = allFields
     .filter((f: any) => f.name !== field.name) // Loại bỏ biến thể hiện tại
     .map((f: any) => form.getFieldValue(["variants", f.name, "color"]))
@@ -107,8 +112,14 @@ const ColorPickerField = ({
       name={[field.name, "color"]}
       rules={[{ required: true, message: "Please select a color!" }]}
     >
-      <Select placeholder={t("color")} style={{ width: "50%" }} allowClear>
-        {colors.map((color) => (
+      <Select
+        placeholder={t("color")}
+        style={{ width: "50%" }}
+        allowClear
+        showSearch
+        optionFilterProp="children"
+      >
+        {colors.map((color: any) => (
           <Select.Option
             key={color.code}
             value={color.code}
@@ -138,6 +149,8 @@ const ColorPickerField = ({
 const SizeQuantityFields = ({ field }: { field: any }) => {
   const { t } = useTranslation();
   const form = Form.useFormInstance();
+  const pantsSizes = useSelector(getPantsSizes);
+  const shirtSizes = useSelector(getShirtSizes);
 
   return (
     <Form.List
@@ -177,16 +190,33 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
                       placeholder={t("size")}
                       style={{ width: "25%" }}
                       allowClear
+                      showSearch
+                      optionFilterProp="children"
                     >
-                      {shirtSizes.map((size) => (
-                        <Select.Option
-                          key={size.key}
-                          value={size.key}
-                          disabled={selectedSizes.includes(size.key)}
-                        >
-                          {size.value}
-                        </Select.Option>
-                      ))}
+                      <Select.OptGroup label={t("shirt_sizes")}>
+                        {shirtSizes.map((size: any) => (
+                          <Select.Option
+                            key={size.key}
+                            value={size.key}
+                            disabled={selectedSizes.includes(size.key)}
+                          >
+                            {size.value}
+                          </Select.Option>
+                        ))}
+                      </Select.OptGroup>
+
+                      {/* Chọn size quần */}
+                      <Select.OptGroup label={t("pants_sizes")}>
+                        {pantsSizes.map((size: any) => (
+                          <Select.Option
+                            key={size.key}
+                            value={size.key}
+                            disabled={selectedSizes.includes(size.key)}
+                          >
+                            {size.value}
+                          </Select.Option>
+                        ))}
+                      </Select.OptGroup>
                     </Select>
                   </Form.Item>
 
