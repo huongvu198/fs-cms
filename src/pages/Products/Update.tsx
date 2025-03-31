@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Tabs, Collapse, Button, FormInstance } from "antd";
 import PageContent from "../../components/common/PageContent";
 import { useTranslation } from "react-i18next";
-import Basic from "../../components/Products/Update/Basic";
+import Basic from "../../components/products/update/Basic";
+import Sale from "../../components/products/update/Sale";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { getSegments, getListSegment } from "../../redux/segmentSlice";
@@ -15,7 +16,6 @@ import {
 } from "../../redux/productSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { Product } from "../../config/routeConfig";
-import Sale from "../../components/Products/Update/Sale";
 
 const UpdateProduct = () => {
   const { t } = useTranslation();

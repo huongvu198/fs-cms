@@ -9,8 +9,8 @@ import TitleComponent from "../../components/common/Title";
 import { createProduct, getLoading } from "../../redux/productSlice";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../config/routeConfig";
-import Sale from "../../components/Products/Create/Sale";
-import Basic from "../../components/Products/Create/Basic";
+import Sale from "../../components/products/create/Sale";
+import Basic from "../../components/products/create/Basic";
 
 const AddProduct = () => {
   const { t } = useTranslation();

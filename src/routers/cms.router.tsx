@@ -8,11 +8,11 @@ import {
   ProductUpdate,
 } from "../config/routeConfig";
 
-const DashboardPage = Loadable(lazy(() => import("../pages/Dashboard/index")));
-const ProductPage = Loadable(lazy(() => import("../pages/Products/index")));
-const NewProductPage = Loadable(lazy(() => import("../pages/Products/Create")));
+const DashboardPage = Loadable(lazy(() => import("../pages/dashboard/index")));
+const ProductPage = Loadable(lazy(() => import("../pages/products/index")));
+const NewProductPage = Loadable(lazy(() => import("../pages/products/Create")));
 const UpdateProductPage = Loadable(
-  lazy(() => import("../pages/Products/Update"))
+  lazy(() => import("../pages/products/Update"))
 );
 
 const CMSRoutes: RouteObject[] = [
