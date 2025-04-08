@@ -34,16 +34,15 @@ const UploadImage = ({ field }: { field: any }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const image = form.getFieldValue(["variants", field.name, "image"]);
-    if (image && typeof image === "string") {
-      setFileList([
-        {
-          uid: "-1",
-          name: "image.png",
-          status: "done",
-          url: image, // Hiển thị ảnh từ DB
-        },
-      ]);
+    const images = form.getFieldValue(["variants", field.name, "images"]);
+    if (Array.isArray(images)) {
+      const files: UploadFile[] = images.map((img, index) => ({
+        uid: img.id || `db-${index}`,
+        name: `image-${index}.png`,
+        status: "done",
+        url: img.url,
+      }));
+      setFileList(files);
     }
   }, [form, field.name]);
 
@@ -56,20 +55,20 @@ const UploadImage = ({ field }: { field: any }) => {
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    setFileList(newFileList.slice(-1)); // Giữ lại 1 ảnh duy nhất
+    setFileList(newFileList.slice(-4)); // Giữ lại 4 ảnh duy nhất
 
     // Cập nhật giá trị vào `Form` để tránh lỗi validate
     form.setFieldValue(
-      ["variants", field.name, "image"],
+      ["variants", field.name, "images"],
       newFileList.length > 0 ? newFileList : undefined
     );
-    form.validateFields([["variants", field.name, "image"]]); // Re-validate ngay khi chọn ảnh
+    form.validateFields([["variants", field.name, "images"]]); // Re-validate ngay khi chọn ảnh
   };
 
   return (
     <Form.Item
       label={t("image")}
-      name={[field.name, "image"]}
+      name={[field.name, "images"]}
       valuePropName="fileList"
       getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
       rules={[{ required: true, message: "Please upload an image!" }]}
@@ -80,9 +79,9 @@ const UploadImage = ({ field }: { field: any }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        maxCount={1}
+        showUploadList={{ showRemoveIcon: false }} // Hide the "Remove" button
       >
-        {fileList.length < 1 && (
+        {fileList.length < 4 && (
           <button style={{ border: 0, background: "none" }} type="button">
             <PlusOutlined />
             <div style={{ marginTop: 8 }}>{t("upload")}</div>
@@ -364,33 +363,64 @@ const Sale = forwardRef<SaleInfoUpdateRef>((_, ref) => {
     getFieldsValue: async () => {
       const values = form.getFieldsValue();
 
-      // Tìm ảnh cần upload (chỉ upload nếu chưa có URL)
-      const filesToUpload = values.variants
-        .map((variant: any) => {
-          if (!variant.image || typeof variant.image === "string") return null;
-          return variant.image[0]?.originFileObj;
-        })
-        .filter(Boolean);
+      const filesToUpload: File[] = [];
 
+      // Thu thập ảnh mới từ variant mới (chưa có id)
+      values.variants.forEach((variant: any) => {
+        const isNewVariant = !variant.id;
+
+        if (Array.isArray(variant.images)) {
+          variant.images.forEach((file: any) => {
+            if (!file.url && file.originFileObj && isNewVariant) {
+              filesToUpload.push(file.originFileObj);
+            }
+          });
+        }
+      });
+
+      // Upload ảnh mới
+      let uploadedUrls: string[] = [];
       try {
-        const uploadedUrls =
+        uploadedUrls =
           filesToUpload.length > 0
             ? await uploadMultipleImages(filesToUpload)
             : [];
-        values.variants = values.variants.map((variant: any) => {
-          return {
-            ...variant,
-            image:
-              typeof variant.image === "string"
-                ? variant.image
-                : uploadedUrls.shift(),
-          };
-        });
       } catch (error) {
         console.error("Lỗi upload ảnh:", error);
       }
+
+      // Build lại giá trị variant
+      values.variants = values.variants.map((variant: any) => {
+        const isNewVariant = !variant.id;
+        const newImages: { url: string; id?: string }[] = [];
+
+        if (Array.isArray(variant.images)) {
+          variant.images.forEach((file: any) => {
+            if (file.url) {
+              // Ảnh cũ => giữ nguyên id + url
+              newImages.push({
+                url: file.url,
+                id: file?.id, // Có thể undefined nếu ảnh mới không có
+              });
+            } else if (isNewVariant) {
+              // Ảnh mới từ variant mới => gán url
+              const uploadedUrl = uploadedUrls.shift();
+              if (uploadedUrl) {
+                newImages.push({ url: uploadedUrl });
+              }
+            }
+          });
+        }
+
+        return {
+          ...variant,
+          images: newImages,
+        };
+      });
+
       return values;
     },
+
     setFieldsValue: (values) => {
       form.setFieldsValue(values);
     },

@@ -35,30 +35,32 @@ const UpdateProduct = () => {
   const saleInfoFormRef = useRef<FormInstance>(null);
 
   useEffect(() => {
+    if (!segmentList.length) {
+      dispatch(getSegments());
+    }
     if (id) {
       dispatch(detailProduct(id));
-      dispatch(getSegments());
     }
   }, [id]);
 
   useEffect(() => {
     if (product && segmentList.length > 0) {
       const selectedSegment = segmentList.find(
-        (seg) => seg._id === product.segment.id
+        (seg) => seg.id === product.segment.id
       );
       const selectedCategory = selectedSegment?.categories?.find(
-        (cat) => cat._id === product.segment.categories.id
+        (cat) => cat.id === product.segment.category.id
       );
-      const selectedSubCategory = selectedCategory?.subcategories?.find(
-        (sub) => sub._id === product.segment.categories.subcategories.id
+      const selectedSubCategory = selectedCategory?.subCategories?.find(
+        (sub) => sub.id === product.segment.category.subCategory.id
       );
 
       basicInfoFormRef.current?.setFieldsValue({
         name: product.name,
         price: product.price,
-        segmentId: selectedSegment?._id,
-        categoryId: selectedCategory?._id,
-        subCategoryId: selectedSubCategory?._id,
+        segmentId: selectedSegment?.id,
+        categoryId: selectedCategory?.id,
+        subCategoryId: selectedSubCategory?.id,
         description: product.description,
         isActive: product.isActive,
       });
@@ -82,8 +84,6 @@ const UpdateProduct = () => {
 
       const finalData = { ...basicInfoData, ...saleInfoData };
       await dispatch(updateProduct({ productId: id!, productData: finalData }));
-
-      navigate(Product);
     } catch (error) {
       console.error("Lỗi khi submit form:", error);
     }
@@ -117,10 +117,17 @@ const UpdateProduct = () => {
 
       <div style={{ textAlign: "right" }}>
         <Button
+          type="default"
+          style={{ marginTop: 10 }}
+          onClick={() => navigate(Product)}
+        >
+          {t("back")}
+        </Button>
+        <Button
           type="primary"
           htmlType="submit"
           loading={isLoading}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, marginLeft: 8 }}
           onClick={handleSubmit}
         >
           {t("submit_update")}

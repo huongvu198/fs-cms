@@ -33,7 +33,6 @@ import { IProductResponse } from "../../interfaces/product.interface";
 import { ListProductProps } from "../../props/Products/ListProductProps";
 import { DefaultPerPage } from "../../shared/constants";
 import { FormattedNumber } from "react-intl";
-import { getSegments } from "../../redux/segmentSlice";
 
 const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const products = useSelector(getProducts);
@@ -79,7 +78,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
       cancelText: "Hủy",
       centered: true,
       onOk: async () => {
-        await dispatch(archiveProduct(record._id));
+        await dispatch(archiveProduct(record.id));
         fetchData(currentPage, perPage, searchText);
       },
     });
@@ -102,10 +101,8 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
       render: (_, record) => (
         <Space>
           <Tag color="blue">{record.segment.name}</Tag>
-          <Tag color="green">{record.segment.categories.name}</Tag>
-          <Tag color="volcano">
-            {record.segment.categories.subcategories.name}
-          </Tag>
+          <Tag color="green">{record.segment.category.name}</Tag>
+          <Tag color="volcano">{record.segment.category.subCategory.name}</Tag>
         </Space>
       ),
     },
@@ -139,7 +136,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
             <Button
               type="link"
               icon={<EyeOutlined />}
-              onClick={() => navigate(ProductUpdate.replace(":id", record._id))}
+              onClick={() => navigate(ProductUpdate.replace(":id", record.id))}
             />
           </Tooltip>
           <Tooltip title="Lưu trữ sản phẩm">
@@ -244,7 +241,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
       <Table
         columns={columns}
         dataSource={products}
-        rowKey="_id"
+        rowKey="id"
         loading={isLoading}
         pagination={{
           size: "small",

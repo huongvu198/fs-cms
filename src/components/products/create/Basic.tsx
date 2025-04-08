@@ -20,7 +20,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
   }));
 
   const handleSegmentChange = (value: string) => {
-    const selectedSegment = segmentList.find((seg) => seg._id === value);
+    const selectedSegment = segmentList.find((seg) => seg.id === value);
 
     setCategories(selectedSegment?.categories || []);
     setSubcategories([]);
@@ -32,9 +32,9 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
   };
 
   const handleCategoryChange = (value: string) => {
-    const selectedCategory = categories.find((cat) => cat._id === value);
+    const selectedCategory = categories.find((cat) => cat.id === value);
 
-    setSubcategories(selectedCategory?.subcategories || []);
+    setSubcategories(selectedCategory?.subCategories || []);
 
     form.setFieldsValue({
       categoryId: value,
@@ -89,7 +89,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
           allowClear
         >
           {segmentList.map((seg) => (
-            <Select.Option key={seg._id} value={seg._id}>
+            <Select.Option key={seg.id} value={seg.id}>
               {seg.name}
             </Select.Option>
           ))}
@@ -112,7 +112,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
           allowClear
         >
           {categories.map((cat) => (
-            <Select.Option key={cat._id} value={cat._id}>
+            <Select.Option key={cat.id} value={cat.id}>
               {cat.name}
             </Select.Option>
           ))}
@@ -134,7 +134,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
           allowClear
         >
           {subcategories.map((sub) => (
-            <Select.Option key={sub._id} value={sub._id}>
+            <Select.Option key={sub.id} value={sub.id}>
               {sub.name}
             </Select.Option>
           ))}

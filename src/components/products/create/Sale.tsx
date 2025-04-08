@@ -42,20 +42,18 @@ const UploadImage = ({ field }: { field: any }) => {
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    setFileList(newFileList.slice(-1)); // Giữ lại 1 ảnh duy nhất
+    const limitedList = newFileList.slice(-4); // Giữ tối đa 4 ảnh
+    setFileList(limitedList);
 
     // Cập nhật giá trị vào `Form` để tránh lỗi validate
-    form.setFieldValue(
-      ["variants", field.name, "image"],
-      newFileList.length > 0 ? newFileList : undefined
-    );
-    form.validateFields([["variants", field.name, "image"]]); // Re-validate ngay khi chọn ảnh
+    form.setFieldValue(["variants", field.name, "images"], limitedList);
+    form.validateFields([["variants", field.name, "images"]]);
   };
 
   return (
     <Form.Item
       label={t("image")}
-      name={[field.name, "image"]}
+      name={[field.name, "images"]}
       valuePropName="fileList"
       getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
       rules={[{ required: true, message: "Please upload an image!" }]}
@@ -66,9 +64,11 @@ const UploadImage = ({ field }: { field: any }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        maxCount={1}
+        maxCount={4}
+        multiple
+        beforeUpload={() => false}
       >
-        {fileList.length < 1 && (
+        {fileList.length < 4 && (
           <button style={{ border: 0, background: "none" }} type="button">
             <PlusOutlined />
             <div style={{ marginTop: 8 }}>{t("upload")}</div>
@@ -350,24 +350,27 @@ const Sale = forwardRef<SaleInfoRef>((_, ref) => {
     getFieldsValue: async () => {
       const values = form.getFieldsValue();
 
-      // Tìm ảnh cần upload (chỉ upload nếu chưa có URL)
-      const filesToUpload = values.variants
-        .map((variant: any) => {
-          if (!variant.image || typeof variant.image === "string") return null;
-          return variant.image[0]?.originFileObj;
-        })
-        .filter(Boolean);
+      const filesToUpload = values.variants.map((variant: any) =>
+        (variant.images || [])
+          .filter((file: any) => !file.url && file.originFileObj)
+          .map((file: any) => file.originFileObj)
+      );
 
       try {
-        const uploadedUrls =
-          filesToUpload.length > 0
-            ? await uploadMultipleImages(filesToUpload)
-            : [];
+        const uploadedVariantsImages = await Promise.all(
+          filesToUpload.map((files: any) =>
+            files.length ? uploadMultipleImages(files) : []
+          )
+        );
 
         values.variants = values.variants.map(
           (variant: any, index: number) => ({
             ...variant,
-            image: uploadedUrls[index] || variant.image, // Giữ nguyên ảnh nếu đã có URL
+            images: (uploadedVariantsImages[index] || []).map(
+              (url: string) => ({
+                url,
+              })
+            ),
           })
         );
       } catch (error) {

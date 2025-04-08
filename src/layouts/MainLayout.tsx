@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { getMasterData } from "../redux/appSlice";
 import { useEffect } from "react";
+import { getSegments } from "../redux/segmentSlice";
 
 const MainLayout = () => {
   const {
@@ -17,6 +18,7 @@ const MainLayout = () => {
 
   useEffect(() => {
     dispatch(getMasterData());
+    dispatch(getSegments());
   }, []);
 
   return (

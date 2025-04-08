@@ -1,20 +1,20 @@
 export type ISubcategory = {
-  _id: string;
+  id: string;
   name: string;
   subCateSlug: string;
   isActive: boolean;
 };
 
 export type ICategory = {
-  _id: string;
+  id: string;
   name: string;
   cateSlug: string;
   isActive: boolean;
-  subcategories?: ISubcategory[];
+  subCategories?: ISubcategory[];
 };
 
 export type ISegment = {
-  _id: string;
+  id: string;
   name: string;
   slug: string;
   isActive: boolean;

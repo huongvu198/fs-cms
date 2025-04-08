@@ -44,7 +44,7 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
     categoryId?: string,
     subCategoryId?: string
   ) => {
-    const selectedSegment = segmentList.find((seg) => seg._id === segmentId);
+    const selectedSegment = segmentList.find((seg) => seg.id === segmentId);
     const newCategories = selectedSegment?.categories || [];
     setCategories(newCategories);
 
@@ -57,14 +57,13 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
   };
 
   const handleCategoryChange = (categoryId: string, subCategoryId?: string) => {
-    const selectedCategory = categories.find((cat) => cat._id === categoryId);
-    console.log("selectedCategory", selectedCategory);
-    const newSubcategories = selectedCategory?.subcategories || [];
+    const selectedCategory = categories.find((cat) => cat.id === categoryId);
+    const newSubcategories = selectedCategory?.subCategories || [];
     setSubcategories(newSubcategories);
 
     if (
       !subCategoryId ||
-      !newSubcategories.some((sub) => sub._id === subCategoryId)
+      !newSubcategories.some((sub) => sub.id === subCategoryId)
     ) {
       // form.setFieldsValue({ subCategoryId: undefined });
     }
@@ -108,7 +107,7 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
           optionFilterProp="children"
         >
           {segmentList.map((seg) => (
-            <Select.Option key={seg._id} value={seg._id}>
+            <Select.Option key={seg.id} value={seg.id}>
               {seg.name}
             </Select.Option>
           ))}
@@ -125,7 +124,7 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
           optionFilterProp="children"
         >
           {categories.map((cat) => (
-            <Select.Option key={cat._id} value={cat._id}>
+            <Select.Option key={cat.id} value={cat.id}>
               {cat.name}
             </Select.Option>
           ))}
@@ -145,7 +144,7 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
           optionFilterProp="children"
         >
           {subcategories.map((sub) => (
-            <Select.Option key={sub._id} value={sub._id}>
+            <Select.Option key={sub.id} value={sub.id}>
               {sub.name}
             </Select.Option>
           ))}
