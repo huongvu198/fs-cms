@@ -41,35 +41,34 @@ export interface DataProductSale {
 }
 
 export interface IProductResponse {
-  _id: string;
+  id: string;
   name: string;
   price: number;
   description: string;
   isActive: boolean;
   isArchived: boolean;
-  segment: ISegment;
   discount: number;
   totalQuantity: number;
   totalSoldQuantity: number;
   totalInventory: number;
-  variants: IVariant[];
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  segment: ISegment; // Quan hệ với segment
+  variants: IVariant[]; // Danh sách các biến thể
 }
 
 export interface ISegment {
   id: string;
   name: string;
   slug: string;
-  categories: ICategory;
+  category: ICategory; // Quan hệ với category
 }
 
 export interface ICategory {
   id: string;
   name: string;
   cateSlug: string;
-  subcategories: ISubCategory;
+  subCategory: ISubCategory; // Quan hệ với subCategory
 }
 
 export interface ISubCategory {
@@ -79,53 +78,21 @@ export interface ISubCategory {
 }
 
 export interface IVariant {
+  id: string;
   color: string;
   isActive: boolean;
-  image: string;
-  sizes: ISize[];
+  sizes: ISize[]; // Danh sách kích thước
+  images: IImage[]; // Danh sách hình ảnh
 }
 
-export interface IProductResponse {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
+export interface ISize {
+  id: string;
+  size: string;
+  quantity: number;
   isActive: boolean;
-  isArchived: boolean;
-  segment: ISegment;
-  discount: number;
-  totalQuantity: number;
-  totalSoldQuantity: number;
-  totalInventory: number;
-  variants: IVariant[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
-export interface ISegment {
+export interface IImage {
   id: string;
-  name: string;
-  slug: string;
-  categories: ICategory;
-}
-
-export interface ICategory {
-  id: string;
-  name: string;
-  cateSlug: string;
-  subcategories: ISubCategory;
-}
-
-export interface ISubCategory {
-  id: string;
-  name: string;
-  subCateSlug: string;
-}
-
-export interface IVariant {
-  color: string;
-  isActive: boolean;
-  image: string;
-  sizes: ISize[];
+  url: string;
 }

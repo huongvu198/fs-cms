@@ -37,5 +37,10 @@
   "product_description_required": "Miêu tả là bắt buộc",
   "product_discount_required": "Giảm giá là bắt buộc",
   "product_update": "Chỉnh sửa sản phẩm",
-  "submit_update": "Cập nhât"
+  "submit_update": "Cập nhât",
+  "master_data": "Dữ liệu chính",
+  "shirt_sizes": "Sizes Áo",
+  "pants_sizes": "Sizes Quần",
+  "back": "Quay lại",
+  "cancel": "Huỷ bỏ"
 }

@@ -24,12 +24,9 @@ const AddProduct = () => {
   const isLoading = useSelector(getLoading);
   const basicInfoFormRef = useRef<FormInstance>(null);
   const saleInfoFormRef = useRef<FormInstance>(null);
-  const segmment = useSelector(getSegments);
 
   useEffect(() => {
-    if (!segmment) {
-      dispatch(getSegments());
-    }
+    dispatch(getSegments());
   }, []);
 
   const handleSubmit = async () => {
@@ -131,10 +128,17 @@ const AddProduct = () => {
       </Collapse>
       <div style={{ textAlign: "right" }}>
         <Button
+          type="default"
+          style={{ marginTop: 10 }}
+          onClick={() => navigate(Product)}
+        >
+          {t("cancel")}
+        </Button>
+        <Button
           type="primary"
           htmlType="submit"
           loading={isLoading}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, marginLeft: 8 }}
           onClick={handleSubmit}
         >
           {t("submit_step")}
