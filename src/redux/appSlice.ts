@@ -9,6 +9,7 @@ interface AppState {
   success: string | null;
   masterData: any;
   masterDataRecordId: string | null;
+  defaultPerPage: number;
 }
 
 const initialState: AppState = {
@@ -17,6 +18,7 @@ const initialState: AppState = {
   success: null,
   masterData: null,
   masterDataRecordId: null,
+  defaultPerPage: 10,
 };
 
 // Thunk để fetch master data từ API
@@ -59,7 +61,8 @@ export const appSlice = createSlice({
       .addCase(getMasterData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.masterData = action.payload.data;
-        state.masterDataRecordId = action.payload._id;
+        state.masterDataRecordId = action.payload.id;
+        state.defaultPerPage = action.payload.data.DefaultPerPage || 10; // Set defaultPerPage from API response
       })
       .addCase(getMasterData.rejected, (state) => {
         state.isLoading = false;
@@ -71,7 +74,7 @@ export const appSlice = createSlice({
       .addCase(updateMasterData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.masterData = action.payload.data;
-        state.masterDataRecordId = action.payload._id;
+        state.masterDataRecordId = action.payload.id;
         showToast(ToastType.SUCCESS, "Cập nhật dữ liệu chính thành công");
       })
       .addCase(updateMasterData.rejected, (state) => {
@@ -95,6 +98,9 @@ export const getColors = (state: { app: AppState }) =>
 
 export const getPantsSizes = (state: { app: AppState }) =>
   state.app.masterData?.pantsSizes;
+
+export const getDefaultPerPage = (state: { app: AppState }) =>
+  state.app.defaultPerPage;
 
 export const {} = appSlice.actions;
 

@@ -3,17 +3,14 @@ import { authAxios } from "../config/axiosConfig";
 import endPoint from "../services";
 import { IProduct, IProductResponse } from "../interfaces/product.interface";
 import { showToast, ToastType } from "../shared/toast";
+import { parsePaginationHeaders } from "../shared/common";
+import { Pagination } from "../interfaces/app.interface";
 
 interface ProductState {
   isLoading: boolean;
   error: string | null;
   products: IProductResponse[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    perPage: number;
-    totalItems: number;
-  };
+  pagination: Pagination;
   product: IProductResponse | null;
 }
 
@@ -131,7 +128,7 @@ const productSlice = createSlice({
       })
       .addCase(createProduct.rejected, (state) => {
         state.isLoading = false;
-        showToast(ToastType.SUCCESS, "Tạo sản phẩm lỗi");
+        showToast(ToastType.ERROR, "Tạo sản phẩm lỗi");
       })
       .addCase(updateProduct.pending, (state) => {
         state.isLoading = true;
@@ -155,12 +152,7 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.products = action.payload.items;
 
-        state.pagination = {
-          currentPage: Number(action.payload.headers["x-page"]),
-          totalPages: Number(action.payload.headers["x-pages-count"]),
-          perPage: Number(action.payload.headers["x-per-page"]),
-          totalItems: Number(action.payload.headers["x-total-count"]),
-        };
+        state.pagination = parsePaginationHeaders(action.payload.headers);
       })
       .addCase(getListActiveProduct.rejected, (state, action) => {
         state.isLoading = false;

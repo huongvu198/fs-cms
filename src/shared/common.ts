@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { Pagination } from "../interfaces/app.interface";
 
 interface DecodedToken {
   sessionId: string;
@@ -20,3 +21,29 @@ export function getSessionIdFromToken(): string | null {
     return null;
   }
 }
+
+export const parsePaginationHeaders = (
+  headers: Record<string, string>
+): Pagination => {
+  return {
+    currentPage: Number(headers["x-page"] || 1),
+    totalPages: Number(headers["x-pages-count"] || 1),
+    perPage: Number(headers["x-per-page"] || 10),
+    totalItems: Number(headers["x-total-count"] || 0),
+  };
+};
+
+export const formatDateToVietnamese = (date: string | Date): string => {
+  const d = new Date(date);
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
+export const capitalizeFirstLetter = (text: string): string => {
+  return text
+    .toLowerCase()
+    .split(/[_\s]+/) // tách theo dấu _ hoặc khoảng trắng
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

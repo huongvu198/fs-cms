@@ -17,7 +17,7 @@ const Sidebar: React.FC = () => {
   // };
 
   return (
-    <Sider width={200} style={{ background: "#fff", maxHeight: "100vh" }}>
+    <Sider width={250} style={{ background: "#fff", maxHeight: "100vh" }}>
       <div
         style={{
           flex: 1,

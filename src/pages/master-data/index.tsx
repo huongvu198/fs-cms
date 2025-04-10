@@ -20,7 +20,7 @@ import { AppDispatch } from "../../redux/store";
 const MetadataManagement = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
-  const _id = useSelector(getStoreMasterDataRecordId);
+  const id = useSelector(getStoreMasterDataRecordId);
   const masterData = useSelector(getStoreMasterData);
   const isLoading = useSelector(getLoading);
 
@@ -29,7 +29,7 @@ const MetadataManagement = () => {
   const handleSaveMasterData = async () => {
     dispatch(
       updateMasterData({
-        _id: _id,
+        id: id,
         data: JSON.parse(code),
       })
     );

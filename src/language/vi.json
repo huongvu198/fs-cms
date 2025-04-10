@@ -42,5 +42,10 @@
   "shirt_sizes": "Sizes Áo",
   "pants_sizes": "Sizes Quần",
   "back": "Quay lại",
-  "cancel": "Huỷ bỏ"
+  "cancel": "Huỷ bỏ",
+  "admin_list": "Danh sách quản trị viên",
+  "customer_list": "Danh sách khách hàng",
+  "manage_account": "Quản lý tài khoản",
+  "account_admin": "Quản lý quản trị viên",
+  "account_user": "Quản lý khách hàng"
 }
