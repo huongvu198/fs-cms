@@ -92,7 +92,7 @@ const UserFormModal = ({
         >
           <Select disabled={isViewMode}>
             {Object.entries(UserType)
-              .filter(([key, value]) => typeof value === "number")
+              .filter(([, value]) => typeof value === "number")
               .map(([key, value]) => (
                 <Select.Option key={value} value={value}>
                   {capitalizeFirstLetter(key)}
