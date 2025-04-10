@@ -5,8 +5,16 @@ import {
   LaptopOutlined,
   ProductOutlined,
   FileProtectOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { Dashboard, MasterData, Product } from "./routeConfig";
+import {
+  Account,
+  AccountAdmin,
+  AccountUser,
+  Dashboard,
+  MasterData,
+  Product,
+} from "./routeConfig";
 import { useTranslation } from "react-i18next";
 
 const useMenuItems = () => {
@@ -24,21 +32,21 @@ const useMenuItems = () => {
         icon: React.createElement(ProductOutlined),
         label: t("product_management"),
       },
-      // {
-      //   key: "/profile",
-      //   icon: React.createElement(UserOutlined),
-      //   label: t("profile"),
-      //   children: [
-      //     {
-      //       key: "/profile/view",
-      //       label: t("view_profile"),
-      //     },
-      //     {
-      //       key: "/profile/edit",
-      //       label: t("edit_profile"),
-      //     },
-      //   ],
-      // },
+      {
+        key: Account,
+        icon: React.createElement(UserOutlined),
+        label: t("manage_account"),
+        children: [
+          {
+            key: AccountAdmin,
+            label: t("account_admin"),
+          },
+          {
+            key: AccountUser,
+            label: t("account_user"),
+          },
+        ],
+      },
       {
         key: MasterData,
         icon: React.createElement(FileProtectOutlined),

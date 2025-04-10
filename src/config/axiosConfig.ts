@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config } from "./envConfig";
 import { AxiosErrorResponse } from "../interfaces/axios.interface";
+import { toast } from "react-toastify";
 
 const { baseURL } = config.server;
 
@@ -31,7 +32,10 @@ authAxios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      console.error("Unauthorized! Redirecting to login...");
+      toast.error("Unauthorized");
+    }
+    if (error.response && error.response.status === 403) {
+      toast.error("Forbidden");
     }
     return Promise.reject(error);
   }

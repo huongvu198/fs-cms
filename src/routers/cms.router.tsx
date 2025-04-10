@@ -7,6 +7,8 @@ import {
   ProductNew,
   ProductUpdate,
   MasterData,
+  AccountAdmin,
+  AccountUser,
 } from "../config/routeConfig";
 
 const DashboardPage = Loadable(lazy(() => import("../pages/dashboard/index")));
@@ -18,6 +20,8 @@ const UpdateProductPage = Loadable(
 const MasterDataPage = Loadable(
   lazy(() => import("../pages/master-data/index"))
 );
+const AdminPage = Loadable(lazy(() => import("../pages/users/admin")));
+const CustomerPage = Loadable(lazy(() => import("../pages/users/customer")));
 
 const CMSRoutes: RouteObject[] = [
   {
@@ -39,6 +43,14 @@ const CMSRoutes: RouteObject[] = [
   {
     path: MasterData,
     element: <MasterDataPage />,
+  },
+  {
+    path: AccountAdmin,
+    element: <AdminPage />,
+  },
+  {
+    path: AccountUser,
+    element: <CustomerPage />,
   },
 ];
 

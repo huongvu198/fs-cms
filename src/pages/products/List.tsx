@@ -30,8 +30,8 @@ import {
 import { ProductNew, ProductUpdate } from "../../config/routeConfig";
 import { IProductResponse } from "../../interfaces/product.interface";
 import { ListProductProps } from "../../props/Products/ListProductProps";
-import { DefaultPerPage } from "../../shared/constants";
 import { FormattedNumber } from "react-intl";
+import { getDefaultPerPage } from "../../redux/appSlice";
 
 const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const products = useSelector(getProducts);
@@ -39,7 +39,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const isLoading = useSelector(getLoading);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(DefaultPerPage);
+  const [perPage, setPerPage] = useState(useSelector(getDefaultPerPage));
   const [searchText, setSearchText] = useState("");
 
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);

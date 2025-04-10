@@ -17,6 +17,12 @@ const endPoint = {
     GET: `masters-data`,
     UPDATE: `masters-data/update`,
   },
+  USER: {
+    GET_LIST: "users",
+    DELETE: "users",
+    CREATE_BY_ADMIN: "users/by-admin",
+    UPDATE: "users",
+  },
 };
 
 export default endPoint;
