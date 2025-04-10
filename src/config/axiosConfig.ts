@@ -7,13 +7,13 @@ const { baseURL } = config.server;
 
 export const authAxios = axios.create({
   baseURL: baseURL,
-  timeout: 5000,
+  timeout: 15000,
   headers: { "Content-Type": "application/json" },
 });
 
 export const unauthAxios = axios.create({
   baseURL: baseURL,
-  timeout: 5000,
+  timeout: 15000,
   headers: { "Content-Type": "application/json" },
 });
 
