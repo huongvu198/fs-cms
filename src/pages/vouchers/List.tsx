@@ -1,11 +1,4 @@
 import { useSelector } from "react-redux";
-import {
-  deleteUser,
-  getLoading,
-  getLoadingAction,
-  getPagination,
-  updateUser,
-} from "../../redux/userSlice";
 import { useEffect, useState } from "react";
 import { getDefaultPerPage } from "../../redux/appSlice";
 import {
@@ -26,6 +19,9 @@ import {
   create,
   deleteVoucher,
   getListVoucher,
+  getLoading,
+  getLoadingAction,
+  getPagination,
   getVouchers,
   update,
 } from "../../redux/voucherSlice";
