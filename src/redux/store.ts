@@ -3,7 +3,8 @@ import authReducer from "./authSlice";
 import segmentReducer from "./segmentSlice";
 import productReducer from "./productSlice";
 import appReducer from "./appSlice";
-import useReducer from "./userSlice";
+import userReducer from "./userSlice";
+import voucherReducer from "./voucherSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     segment: segmentReducer,
     product: productReducer,
     app: appReducer,
-    user: useReducer,
+    user: userReducer,
+    voucher: voucherReducer,
   },
 });
 

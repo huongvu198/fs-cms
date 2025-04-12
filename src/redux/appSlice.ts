@@ -75,10 +75,12 @@ export const appSlice = createSlice({
         state.isLoading = false;
         state.masterData = action.payload.data;
         state.masterDataRecordId = action.payload.id;
+        state.defaultPerPage = action.payload.data.DefaultPerPage || 10;
         showToast(ToastType.SUCCESS, "Cập nhật dữ liệu chính thành công");
       })
       .addCase(updateMasterData.rejected, (state) => {
         state.isLoading = false;
+        showToast(ToastType.ERROR, "Cập nhật dữ liệu chính thất bại");
       });
   },
 });

@@ -23,6 +23,12 @@ const endPoint = {
     CREATE_BY_ADMIN: "users/by-admin",
     UPDATE: "users",
   },
+  VOUCHER: {
+    GET_LIST: "vouchers/all",
+    DELETE: "vouchers",
+    CREATE: "vouchers",
+    UPDATE: "vouchers",
+  },
 };
 
 export default endPoint;

@@ -6,3 +6,4 @@ export const MasterData = "master-data";
 export const Account = "account";
 export const AccountAdmin = "account-admin";
 export const AccountUser = "account-user";
+export const Voucher = "voucher";
