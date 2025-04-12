@@ -8,7 +8,7 @@ const Loader = () => (
       left: 0,
       width: "100%",
       zIndex: 9999,
-      background: "#ff4d4f",
+      background: "#1677ff",
       height: 4,
     }}
   >

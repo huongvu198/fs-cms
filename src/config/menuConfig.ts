@@ -14,6 +14,7 @@ import {
   Dashboard,
   MasterData,
   Product,
+  Voucher,
 } from "./routeConfig";
 import { useTranslation } from "react-i18next";
 
@@ -46,6 +47,11 @@ const useMenuItems = () => {
             label: t("account_user"),
           },
         ],
+      },
+      {
+        key: Voucher,
+        icon: React.createElement(ProductOutlined),
+        label: t("voucher_management"),
       },
       {
         key: MasterData,

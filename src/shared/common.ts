@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { Pagination } from "../interfaces/app.interface";
+import dayjs from "dayjs";
 
 interface DecodedToken {
   sessionId: string;
@@ -46,4 +47,9 @@ export const capitalizeFirstLetter = (text: string): string => {
     .split(/[_\s]+/) // tách theo dấu _ hoặc khoảng trắng
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+};
+
+// Hàm kiểm tra ngày nhỏ hơn hôm nay thì disable
+export const disabledPastDate = (current: dayjs.Dayjs) => {
+  return current && current < dayjs().startOf("day");
 };

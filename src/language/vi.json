@@ -47,5 +47,7 @@
   "customer_list": "Danh sách khách hàng",
   "manage_account": "Quản lý tài khoản",
   "account_admin": "Quản lý quản trị viên",
-  "account_user": "Quản lý khách hàng"
+  "account_user": "Quản lý khách hàng",
+  "voucher_list": "Danh sách mã khuyến mãi",
+  "voucher_management": "Quản lý khuyến mãi"
 }

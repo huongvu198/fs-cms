@@ -242,6 +242,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
         dataSource={products}
         rowKey="id"
         loading={isLoading}
+        scroll={{ x: "max-content" }}
         pagination={{
           size: "small",
           current: currentPage,

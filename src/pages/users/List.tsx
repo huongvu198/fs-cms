@@ -128,8 +128,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
       cancelText: "Hủy",
       centered: true,
       onOk: async () => {
-        await dispatch(deleteUser(record.id));
-        fetchData(currentPage, perPage, searchText);
+        await handleAfterSubmit(deleteUser(record.id));
       },
     });
   };
@@ -251,6 +250,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
         dataSource={users}
         rowKey="id"
         loading={isLoading}
+        scroll={{ x: "max-content" }}
         pagination={{
           size: "small",
           current: currentPage,
