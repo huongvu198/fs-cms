@@ -4,42 +4,44 @@ import { authAxios } from "../config/axiosConfig";
 import endPoint from "../services";
 import { parsePaginationHeaders } from "../shared/common";
 import { showToast, ToastType } from "src/shared/toast";
-import { CreateVoucher, Voucher } from "../interfaces/voucher.interface";
+import { Bank, CreateBank } from "../interfaces/bank.interface";
 
-interface VoucherState {
+interface BankState {
   isLoading: boolean;
   isLoadingAction: boolean;
   error: string | null;
-  vouchers: Voucher[];
+  banks: Bank[];
   pagination: Pagination;
+  qrDataURL: string | null;
 }
 
-const initialState: VoucherState = {
+const initialState: BankState = {
   isLoading: false,
   isLoadingAction: false,
   error: null,
-  vouchers: [],
+  banks: [],
   pagination: {
     currentPage: 1,
     totalPages: 1,
     perPage: 10,
     totalItems: 0,
   },
+  qrDataURL: "",
 };
 
-export const getListVoucher = createAsyncThunk(
-  "voucher/list",
+export const getListBank = createAsyncThunk(
+  "bank/list",
   async (
     params: {
       isActive?: boolean;
-      code?: string;
+      search?: string;
       page?: number;
       perPage?: number;
     },
     { rejectWithValue }
   ) => {
     try {
-      const response = await authAxios.get(endPoint.VOUCHER.GET_LIST, {
+      const response = await authAxios.get(endPoint.BANK.GET_LIST, {
         params,
       });
       return response.data;
@@ -49,12 +51,12 @@ export const getListVoucher = createAsyncThunk(
   }
 );
 
-export const deleteVoucher = createAsyncThunk(
-  "voucher/delete",
-  async (voucherId: string | number, { rejectWithValue }) => {
+export const deleteBank = createAsyncThunk(
+  "bank/delete",
+  async (bankId: string | number, { rejectWithValue }) => {
     try {
       const response = await authAxios.delete(
-        endPoint.VOUCHER.DELETE + `/${voucherId}`
+        endPoint.BANK.DELETE + `/${bankId}`
       );
       return response.data;
     } catch (error: any) {
@@ -64,10 +66,10 @@ export const deleteVoucher = createAsyncThunk(
 );
 
 export const create = createAsyncThunk(
-  "voucher/create",
-  async (payload: CreateVoucher, { rejectWithValue }) => {
+  "bank/create",
+  async (payload: CreateBank, { rejectWithValue }) => {
     try {
-      const response = await authAxios.post(endPoint.VOUCHER.CREATE, payload);
+      const response = await authAxios.post(endPoint.BANK.CREATE, payload);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message);
@@ -76,13 +78,13 @@ export const create = createAsyncThunk(
 );
 
 export const update = createAsyncThunk(
-  "voucher/update",
-  async (args: { id: string; payload: CreateVoucher }, { rejectWithValue }) => {
+  "bank/update",
+  async (args: { id: string; payload: CreateBank }, { rejectWithValue }) => {
     try {
       const { id, payload } = args;
 
       const response = await authAxios.patch(
-        `${endPoint.VOUCHER.UPDATE}/${id}`,
+        `${endPoint.BANK.UPDATE}/${id}`,
         payload
       );
       return response.data;
@@ -92,8 +94,22 @@ export const update = createAsyncThunk(
   }
 );
 
-const voucherSlice = createSlice({
-  name: "voucher",
+export const generateQR = createAsyncThunk(
+  "qr/generateQRCode",
+  async (bankId: string, { rejectWithValue }) => {
+    try {
+      const response = await authAxios.get(
+        `${endPoint.VIETQR.GENERATE}/${bankId}`
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
+const bankSlice = createSlice({
+  name: "bank",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -110,28 +126,28 @@ const voucherSlice = createSlice({
         state.isLoadingAction = false;
         showToast(ToastType.ERROR, "Tạo lỗi");
       })
-      .addCase(getListVoucher.pending, (state) => {
+      .addCase(getListBank.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(getListVoucher.fulfilled, (state, action) => {
+      .addCase(getListBank.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.vouchers = action.payload.items;
+        state.banks = action.payload.items;
         state.pagination = parsePaginationHeaders(action.payload.headers);
       })
-      .addCase(getListVoucher.rejected, (state, action) => {
+      .addCase(getListBank.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
-      .addCase(deleteVoucher.pending, (state) => {
+      .addCase(deleteBank.pending, (state) => {
         state.isLoadingAction = true;
         state.error = null;
       })
-      .addCase(deleteVoucher.fulfilled, (state) => {
+      .addCase(deleteBank.fulfilled, (state) => {
         state.isLoadingAction = false;
         showToast(ToastType.SUCCESS, "Xoá thành công");
       })
-      .addCase(deleteVoucher.rejected, (state, action) => {
+      .addCase(deleteBank.rejected, (state, action) => {
         state.isLoadingAction = false;
         state.error = action.payload as string;
         showToast(ToastType.ERROR, "Xoá thất bại");
@@ -148,21 +164,38 @@ const voucherSlice = createSlice({
         state.isLoadingAction = false;
         state.error = action.payload as string;
         showToast(ToastType.ERROR, action.payload as string);
+      })
+      .addCase(generateQR.pending, (state) => {
+        state.isLoadingAction = true;
+        state.error = null;
+      })
+      .addCase(generateQR.fulfilled, (state, action) => {
+        state.isLoadingAction = false;
+        if (action.payload.code === "00") {
+          state.qrDataURL = action.payload.data.qrDataURL;
+        } else {
+          state.qrDataURL = null;
+        }
+      })
+      .addCase(generateQR.rejected, (state, action) => {
+        state.isLoadingAction = false;
+        state.error = action.payload as string;
+        showToast(ToastType.ERROR, "Tạo mã thất bại");
       });
   },
 });
 
-export const getLoading = (state: { voucher: VoucherState }) =>
-  state.voucher.isLoading;
-export const getLoadingAction = (state: { voucher: VoucherState }) =>
-  state.voucher.isLoadingAction;
-export const getError = (state: { voucher: VoucherState }) =>
-  state.voucher.error;
-export const getVouchers = (state: { voucher: VoucherState }) =>
-  state.voucher.vouchers;
-export const getPagination = (state: { voucher: VoucherState }) =>
-  state.voucher.pagination;
+export const getLoading = (state: { bank: BankState }) => state.bank.isLoading;
+export const getLoadingAction = (state: { bank: BankState }) =>
+  state.bank.isLoadingAction;
+export const getError = (state: { bank: BankState }) => state.bank.error;
+export const getBanks = (state: { bank: BankState }) => state.bank.banks;
+export const getPagination = (state: { bank: BankState }) =>
+  state.bank.pagination;
 
-export const {} = voucherSlice.actions;
+export const getQrDataURL = (state: { bank: BankState }) =>
+  state.bank.qrDataURL;
 
-export default voucherSlice.reducer;
+export const {} = bankSlice.actions;
+
+export default bankSlice.reducer;

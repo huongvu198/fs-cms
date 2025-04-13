@@ -10,6 +10,7 @@ import {
   AccountAdmin,
   AccountUser,
   Voucher,
+  Payment,
 } from "../config/routeConfig";
 
 const DashboardPage = Loadable(lazy(() => import("../pages/dashboard/index")));
@@ -24,6 +25,7 @@ const MasterDataPage = Loadable(
 const AdminPage = Loadable(lazy(() => import("../pages/users/admin")));
 const CustomerPage = Loadable(lazy(() => import("../pages/users/customer")));
 const VoucherPage = Loadable(lazy(() => import("../pages/vouchers")));
+const PaymentPage = Loadable(lazy(() => import("../pages/payments")));
 
 const CMSRoutes: RouteObject[] = [
   {
@@ -57,6 +59,10 @@ const CMSRoutes: RouteObject[] = [
   {
     path: Voucher,
     element: <VoucherPage />,
+  },
+  {
+    path: Payment,
+    element: <PaymentPage />,
   },
 ];
 

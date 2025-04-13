@@ -25,7 +25,6 @@ const VoucherFormModal = ({
 }: VoucherModalProps) => {
   const [form] = Form.useForm();
   const [limitType, setLimitType] = useState<"unlimit" | "limited">("unlimit");
-  console.log("initialValues", initialValues);
 
   useEffect(() => {
     if (initialValues) {

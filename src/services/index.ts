@@ -29,6 +29,15 @@ const endPoint = {
     CREATE: "vouchers",
     UPDATE: "vouchers",
   },
+  BANK: {
+    GET_LIST: "bank",
+    DELETE: "bank",
+    CREATE: "bank",
+    UPDATE: "bank",
+  },
+  VIETQR: {
+    GENERATE: "viet-qr/generate",
+  },
 };
 
 export default endPoint;

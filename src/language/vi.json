@@ -49,5 +49,7 @@
   "account_admin": "Quản lý quản trị viên",
   "account_user": "Quản lý khách hàng",
   "voucher_list": "Danh sách mã khuyến mãi",
-  "voucher_management": "Quản lý khuyến mãi"
+  "voucher_management": "Quản lý khuyến mãi",
+  "bank_list": "Danh sách tài khoản ngân hàng",
+  "bank_management": "Quản lý thanh toán"
 }

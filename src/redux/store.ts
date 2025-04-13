@@ -6,6 +6,8 @@ import appReducer from "./appSlice";
 import userReducer from "./userSlice";
 import voucherReducer from "./voucherSlice";
 
+import bankReducer from "./bankSlice";
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -14,6 +16,7 @@ export const store = configureStore({
     app: appReducer,
     user: userReducer,
     voucher: voucherReducer,
+    bank: bankReducer,
   },
 });
 

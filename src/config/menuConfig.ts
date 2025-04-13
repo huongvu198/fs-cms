@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
 import { MenuProps } from "antd";
 import {
-  // UserOutlined,
+  UserOutlined,
   LaptopOutlined,
   ProductOutlined,
   FileProtectOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import {
   Account,
@@ -13,6 +12,7 @@ import {
   AccountUser,
   Dashboard,
   MasterData,
+  Payment,
   Product,
   Voucher,
 } from "./routeConfig";
@@ -24,14 +24,14 @@ const useMenuItems = () => {
   const menuItems: MenuProps["items"] = useMemo(() => {
     return [
       {
-        key: Dashboard,
-        icon: React.createElement(LaptopOutlined),
-        label: t("dashboard"),
-      },
-      {
         key: Product,
         icon: React.createElement(ProductOutlined),
         label: t("product_management"),
+      },
+      {
+        key: Dashboard,
+        icon: React.createElement(LaptopOutlined),
+        label: t("dashboard"),
       },
       {
         key: Account,
@@ -52,6 +52,11 @@ const useMenuItems = () => {
         key: Voucher,
         icon: React.createElement(ProductOutlined),
         label: t("voucher_management"),
+      },
+      {
+        key: Payment,
+        icon: React.createElement(ProductOutlined),
+        label: t("bank_management"),
       },
       {
         key: MasterData,

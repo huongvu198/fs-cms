@@ -7,3 +7,4 @@ export const Account = "account";
 export const AccountAdmin = "account-admin";
 export const AccountUser = "account-user";
 export const Voucher = "voucher";
+export const Payment = "poucher";
