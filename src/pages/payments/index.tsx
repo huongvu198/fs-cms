@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PageContent from "src/components/common/PageContent";
-import { AppDispatch } from "src/redux/store";
+import PageContent from "../../components/common/PageContent";
+import { AppDispatch } from "../../redux/store";
 import ListBank from "./List";
 
 const PaymentPage = () => {
