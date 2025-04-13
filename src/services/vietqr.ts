@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "src/config/envConfig";
+import { config } from "../config/envConfig";
 const { apiKey, baseUrl, clientId } = config.vietQR;
 
 // API để kiểm tra số tài khoản

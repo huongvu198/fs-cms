@@ -1,12 +1,12 @@
 import { Modal, Button, Image, Spin } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { QRModalProps } from "src/props/Banks/QRModalProps";
+import { QRModalProps } from "../../props/Banks/QRModalProps";
 import {
   generateQR,
   getLoadingAction,
   getQrDataURL,
-} from "src/redux/bankSlice";
+} from "../../redux/bankSlice";
 
 const QRModal = ({ open, onClose, bankId, dispatch }: QRModalProps) => {
   const loading = useSelector(getLoadingAction);

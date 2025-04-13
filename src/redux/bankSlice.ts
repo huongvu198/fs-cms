@@ -3,7 +3,7 @@ import { Pagination } from "../interfaces/app.interface";
 import { authAxios } from "../config/axiosConfig";
 import endPoint from "../services";
 import { parsePaginationHeaders } from "../shared/common";
-import { showToast, ToastType } from "src/shared/toast";
+import { showToast, ToastType } from "../shared/toast";
 import { Bank, CreateBank } from "../interfaces/bank.interface";
 
 interface BankState {

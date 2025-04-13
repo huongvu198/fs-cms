@@ -1,10 +1,10 @@
-import { Modal, Form, Input, Select, message, Switch } from "antd";
+import { Modal, Form, Input, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
 import { CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons"; // icon check và loading
 import { BankMap } from "../../shared/constants";
-import { PaymentModalProps } from "src/props/Banks/PaymentModalProps";
-import { checkAccountInfo } from "src/services/vietqr";
-import { showToast, ToastType } from "src/shared/toast";
+import { PaymentModalProps } from "../../props/Banks/PaymentModalProps";
+import { checkAccountInfo } from "../../services/vietqr";
+import { showToast, ToastType } from "../../shared/toast";
 
 const PaymentFormModal = ({
   open,

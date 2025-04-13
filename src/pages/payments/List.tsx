@@ -28,11 +28,11 @@ import {
   update,
   deleteBank,
 } from "../../redux/bankSlice";
-import { Bank } from "src/interfaces/bank.interface";
-import { BankShortNameMap } from "src/shared/constants";
+import { Bank } from "../../interfaces/bank.interface";
+import { BankShortNameMap } from "../../shared/constants";
 import PaymentFormModal from "./FormModal";
 import QRModal from "./ModalQR";
-import { ListBankProps } from "src/props/Banks/ListBankProps";
+import { ListBankProps } from "../../props/Banks/ListBankProps";
 
 const ListBank = ({ dispatch }: ListBankProps) => {
   const banks = useSelector(getBanks);
