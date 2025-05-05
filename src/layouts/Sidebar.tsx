@@ -3,6 +3,7 @@ import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 // import { useTranslation } from "react-i18next";
 import useMenuItems from "../config/menuConfig";
+import logo from "../assets/logo.png";
 
 const { Sider } = Layout;
 
@@ -28,7 +29,12 @@ const Sidebar: React.FC = () => {
           fontWeight: "bold",
         }}
       >
-        My Logo
+        <img
+          src={logo}
+          width={50}
+          height={50}
+          style={{ transform: "scale(1.8)" }}
+        />
       </div>
 
       <Menu

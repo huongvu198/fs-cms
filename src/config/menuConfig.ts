@@ -28,11 +28,11 @@ const useMenuItems = () => {
         icon: React.createElement(ProductOutlined),
         label: t("product_management"),
       },
-      {
-        key: Dashboard,
-        icon: React.createElement(LaptopOutlined),
-        label: t("dashboard"),
-      },
+      // {
+      //   key: Dashboard,
+      //   icon: React.createElement(LaptopOutlined),
+      //   label: t("dashboard"),
+      // },
       {
         key: Account,
         icon: React.createElement(UserOutlined),
@@ -58,11 +58,11 @@ const useMenuItems = () => {
         icon: React.createElement(ProductOutlined),
         label: t("bank_management"),
       },
-      {
-        key: MasterData,
-        icon: React.createElement(FileProtectOutlined),
-        label: t("master_data"),
-      },
+      // {
+      //   key: MasterData,
+      //   icon: React.createElement(FileProtectOutlined),
+      //   label: t("master_data"),
+      // },
     ];
   }, [t, i18n.language]);
 
