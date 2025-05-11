@@ -145,7 +145,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
         label={t("product_description")}
         name="description"
         required
-        rules={[{ required: true, message: "Description is required" }]}
+        rules={[{ required: true, message: t("product_description_required") }]}
         validateTrigger="onBlur"
       >
         <TextArea rows={4} placeholder={t("product_description")} />

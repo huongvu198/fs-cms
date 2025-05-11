@@ -254,7 +254,7 @@ const ListVoucher = ({ dispatch }: ListVoucherProps) => {
           </Button>
         </Space>
 
-        <Tooltip title="Thêm mới mã khuyến mãi">
+        <Tooltip title="Thêm mới">
           <Button
             type="primary"
             shape="circle"

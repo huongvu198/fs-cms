@@ -156,7 +156,7 @@ const Basic = forwardRef<BasicInfoUpdateRef>((_, ref) => {
         name="description"
         validateTrigger="onBlur"
         required
-        rules={[{ required: true, message: "Description is required" }]}
+        rules={[{ required: true, message: t("product_description_required") }]}
       >
         <TextArea placeholder={t("product_description")} rows={4} />
       </Form.Item>

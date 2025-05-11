@@ -234,7 +234,7 @@ const ListBank = ({ dispatch }: ListBankProps) => {
           </Button>
         </Space>
 
-        <Tooltip title="Thêm mới tài khoản">
+        <Tooltip title="Thêm mới">
           <Button
             type="primary"
             shape="circle"

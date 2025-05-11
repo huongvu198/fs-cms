@@ -14,6 +14,7 @@ import {
   MasterData,
   Payment,
   Product,
+  Segment,
   Voucher,
 } from "./routeConfig";
 import { useTranslation } from "react-i18next";
@@ -27,6 +28,11 @@ const useMenuItems = () => {
         key: Product,
         icon: React.createElement(ProductOutlined),
         label: t("product_management"),
+      },
+      {
+        key: Segment,
+        icon: React.createElement(ProductOutlined),
+        label: t("segment_management"),
       },
       // {
       //   key: Dashboard,

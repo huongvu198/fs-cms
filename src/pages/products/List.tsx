@@ -7,15 +7,10 @@ import {
   Tag,
   Tooltip,
   Input,
-  Drawer,
-  Form,
-  Checkbox,
-  Select,
   Modal,
 } from "antd";
 import {
   EyeOutlined,
-  FilterOutlined,
   MedicineBoxOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
@@ -42,7 +37,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const [perPage, setPerPage] = useState(useSelector(getDefaultPerPage));
   const [searchText, setSearchText] = useState("");
 
-  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  // const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [filters, setFilters] = useState({
     segment: undefined,
     category: undefined,
@@ -83,9 +78,9 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
     });
   };
 
-  const handleFilterChange = (changedValues: any) => {
-    setFilters({ ...filters, ...changedValues });
-  };
+  // const handleFilterChange = (changedValues: any) => {
+  //   setFilters({ ...filters, ...changedValues });
+  // };
 
   const columns: TableProps<IProductResponse>["columns"] = [
     {
@@ -172,15 +167,15 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
           <Button type="primary" onClick={handleSearch}>
             Tìm kiếm
           </Button>
-          <Button
+          {/* <Button
             icon={<FilterOutlined />}
             onClick={() => setIsDrawerVisible(true)}
           >
             Tìm kiếm nâng cao
-          </Button>
+          </Button> */}
         </Space>
 
-        <Tooltip title="Thêm sản phẩm mới">
+        <Tooltip title="Thêm mới">
           <Button
             type="primary"
             shape="circle"
@@ -190,7 +185,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
         </Tooltip>
       </div>
 
-      <Drawer
+      {/* <Drawer
         title="Bộ lọc nâng cao"
         placement="right"
         closable
@@ -235,7 +230,7 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
             Áp dụng bộ lọc
           </Button>
         </Form>
-      </Drawer>
+      </Drawer> */}
 
       <Table
         columns={columns}

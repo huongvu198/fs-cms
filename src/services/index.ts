@@ -5,6 +5,17 @@ const endPoint = {
   },
   SEGMENT: {
     LIST: `products-public/segments`,
+    LIST_PAGING: `products/segments-paging`,
+    CREATE: "products/create-segment",
+    UPDATE: "products/update-segment/:id",
+  },
+  CATEGORY: {
+    CREATE: "products/create-category",
+    UPDATE: "products/update-category/:id",
+  },
+  SUBCATEGORY: {
+    CREATE: "products/create-subcategory",
+    UPDATE: "products/update-subcategory/:id",
   },
   PRODUCT: {
     CREATE: `products/create-product`,

@@ -29,12 +29,22 @@ const Sidebar: React.FC = () => {
           fontWeight: "bold",
         }}
       >
-        <img
-          src={logo}
-          width={50}
-          height={50}
-          style={{ transform: "scale(1.8)" }}
-        />
+        <span
+          className="brand-name"
+          style={{
+            marginLeft: "10px",
+            fontSize: "28px",
+            fontWeight: 600,
+            fontFamily: "'Lobster', cursive",
+            color: "#d1567c",
+            cursor: "pointer",
+            userSelect: "none",
+            letterSpacing: "1.5px",
+          }}
+          onClick={() => navigate("/")}
+        >
+          Pinky
+        </span>
       </div>
 
       <Menu

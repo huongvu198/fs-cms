@@ -51,5 +51,7 @@
   "voucher_list": "Danh sách mã khuyến mãi",
   "voucher_management": "Quản lý khuyến mãi",
   "bank_list": "Danh sách tài khoản ngân hàng",
-  "bank_management": "Quản lý thanh toán"
+  "bank_management": "Quản lý thanh toán",
+  "segment_management": "Quản lý danh mục",
+  "segment_list": "Danh sách danh mục"
 }
