@@ -5,8 +5,8 @@ import productReducer from "./productSlice";
 import appReducer from "./appSlice";
 import userReducer from "./userSlice";
 import voucherReducer from "./voucherSlice";
-
 import bankReducer from "./bankSlice";
+import orderReducer from "./orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +17,7 @@ export const store = configureStore({
     user: userReducer,
     voucher: voucherReducer,
     bank: bankReducer,
+    order: orderReducer,
   },
 });
 

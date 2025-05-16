@@ -5,13 +5,15 @@ import {
   LaptopOutlined,
   ProductOutlined,
   FileProtectOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import {
   Account,
   AccountAdmin,
   AccountUser,
-  Dashboard,
-  MasterData,
+  // Dashboard,
+  // MasterData,
+  Orders,
   Payment,
   Product,
   Segment,
@@ -53,6 +55,11 @@ const useMenuItems = () => {
             label: t("account_user"),
           },
         ],
+      },
+      {
+        key: Orders,
+        icon: React.createElement(ShoppingOutlined),
+        label: t("manage_orders"),
       },
       {
         key: Voucher,

@@ -9,3 +9,4 @@ export const AccountUser = "account-user";
 export const Voucher = "voucher";
 export const Payment = "payment";
 export const Segment = "segment";
+export const Orders = "orders";

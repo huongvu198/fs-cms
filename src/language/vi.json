@@ -53,5 +53,6 @@
   "bank_list": "Danh sách tài khoản ngân hàng",
   "bank_management": "Quản lý thanh toán",
   "segment_management": "Quản lý danh mục",
-  "segment_list": "Danh sách danh mục"
+  "segment_list": "Danh sách danh mục",
+  "manage_orders": "Quản lý đơn hàng"
 }

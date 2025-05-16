@@ -49,6 +49,9 @@ const endPoint = {
   VIETQR: {
     GENERATE: "viet-qr/generate",
   },
+  ORDERS: {
+    LIST: "orders",
+  },
 };
 
 export default endPoint;
