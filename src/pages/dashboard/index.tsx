@@ -1,72 +1,55 @@
-import { useState } from "react";
-import { TableProps, Tag, Space } from "antd";
-import DataTable from "../../components/common/DataTable";
+import { Row, Col } from "antd";
 import PageContent from "../../components/common/PageContent";
-import SearchFilter from "../../components/common/SearchFilter";
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+import { t } from "i18next";
+import RevenueChart from "../../components/products/chart/RevenueChart";
+import TopProductsChart from "../../components/products/chart/TopProductsChart";
+import BasicAnalytic from "../../components/products/chart/BasicAnalytics";
+import ProductInventory from "../../components/products/chart/ProductInventory";
 
 const DashboardPage = () => {
-  const [data, setData] = useState<DataType[]>([]);
-
-  const columns: TableProps<DataType>["columns"] = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
-  ];
-
   return (
-    <PageContent title="Dashboard">
-      <SearchFilter onFilter={setData} />
-      <DataTable columns={columns} data={data} pageSize={10} />
+    <PageContent
+      title={t("dashboard")}
+      contentSX={{
+        backgroundColor: "#F0F2F5",
+        border: "none",
+        boxShadow: "none",
+      }}
+      bodySX={{
+        padding: 0,
+      }}
+    >
+      <Row gutter={[16, 16]}>
+        <BasicAnalytic />
+        <Col span={12}>
+          <div
+            style={{
+              borderRadius: 8,
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.04)",
+              backgroundColor: "#FFFFFF",
+              padding: 16,
+            }}
+          >
+            <RevenueChart />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div
+            style={{
+              borderRadius: 8,
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.04)",
+              backgroundColor: "#FFFFFF",
+              padding: 16,
+            }}
+          >
+            <TopProductsChart />
+          </div>
+        </Col>
+
+        <Col span={24}>
+          <ProductInventory />
+        </Col>
+      </Row>
     </PageContent>
   );
 };

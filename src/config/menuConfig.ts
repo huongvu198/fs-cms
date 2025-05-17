@@ -6,11 +6,13 @@ import {
   ProductOutlined,
   FileProtectOutlined,
   ShoppingOutlined,
+  AreaChartOutlined,
 } from "@ant-design/icons";
 import {
   Account,
   AccountAdmin,
   AccountUser,
+  Dashboard,
   // Dashboard,
   // MasterData,
   Orders,
@@ -27,6 +29,11 @@ const useMenuItems = () => {
   const menuItems: MenuProps["items"] = useMemo(() => {
     return [
       {
+        key: Dashboard,
+        icon: React.createElement(AreaChartOutlined),
+        label: t("dashboard"),
+      },
+      {
         key: Product,
         icon: React.createElement(ProductOutlined),
         label: t("product_management"),
@@ -35,26 +42,6 @@ const useMenuItems = () => {
         key: Segment,
         icon: React.createElement(ProductOutlined),
         label: t("segment_management"),
-      },
-      // {
-      //   key: Dashboard,
-      //   icon: React.createElement(LaptopOutlined),
-      //   label: t("dashboard"),
-      // },
-      {
-        key: Account,
-        icon: React.createElement(UserOutlined),
-        label: t("manage_account"),
-        children: [
-          {
-            key: AccountAdmin,
-            label: t("account_admin"),
-          },
-          {
-            key: AccountUser,
-            label: t("account_user"),
-          },
-        ],
       },
       {
         key: Orders,
@@ -70,6 +57,21 @@ const useMenuItems = () => {
         key: Payment,
         icon: React.createElement(ProductOutlined),
         label: t("bank_management"),
+      },
+      {
+        key: Account,
+        icon: React.createElement(UserOutlined),
+        label: t("manage_account"),
+        children: [
+          {
+            key: AccountAdmin,
+            label: t("account_admin"),
+          },
+          {
+            key: AccountUser,
+            label: t("account_user"),
+          },
+        ],
       },
       // {
       //   key: MasterData,

@@ -10,6 +10,7 @@ interface IMainCardProps {
   contentSX?: React.CSSProperties;
   children?: ReactNode;
   size?: "sm" | "md";
+  bodySX?: React.CSSProperties;
 }
 
 const PageContent = ({
@@ -19,6 +20,7 @@ const PageContent = ({
   contentSX = {},
   size = "md",
   children,
+  bodySX = {},
 }: IMainCardProps) => {
   return (
     <Content style={{ margin: size === "md" ? "0 auto" : 20, ...sx }}>
@@ -45,6 +47,9 @@ const PageContent = ({
             boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.04)",
             overflow: "hidden",
             ...contentSX,
+          }}
+          bodyStyle={{
+            ...bodySX,
           }}
         >
           {children}

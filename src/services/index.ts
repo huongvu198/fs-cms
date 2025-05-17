@@ -51,6 +51,13 @@ const endPoint = {
   },
   ORDERS: {
     LIST: "orders",
+    UPDATE: "orders/update",
+  },
+  ANALYTICS: {
+    BASIC: "analytics",
+    REVENUE: "analytics/revenue",
+    PRODUCTS: "analytics/product",
+    INVENTORY: "analytics/inventory",
   },
 };
 

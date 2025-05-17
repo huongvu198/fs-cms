@@ -1,3 +1,10 @@
+import {
+  OrderStatusEnum,
+  PaymentMethodEnum,
+  PaymentStatusEnum,
+  VoucherType,
+} from "../shared/enum";
+
 export interface Order {
   id: string;
   userId: number;
@@ -6,9 +13,9 @@ export interface Order {
   subtotal: string;
   discount: string;
   total: string;
-  status: string;
-  paymentMethod: string;
-  paymentStatus: string;
+  status: OrderStatusEnum;
+  paymentMethod: PaymentMethodEnum;
+  paymentStatus: PaymentStatusEnum;
   note: string | null;
   transactionId: string;
   code: string;
@@ -106,8 +113,8 @@ interface Voucher {
   // Update this interface based on actual structure when available
   id: string;
   code: string;
-  discountAmount: string;
-  description?: string;
+  discount: number;
+  type: VoucherType;
 }
 
 interface Address {

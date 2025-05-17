@@ -53,6 +53,11 @@ const ListVoucher = ({ dispatch }: ListVoucherProps) => {
     fetchData(1, perPage, searchText);
   };
 
+  const handleClear = () => {
+    setCurrentPage(1);
+    fetchData(1, perPage, "");
+  };
+
   const handleTableChange = (pagination: any) => {
     setCurrentPage(pagination.current);
     setPerPage(pagination.pageSize);
@@ -248,6 +253,8 @@ const ListVoucher = ({ dispatch }: ListVoucherProps) => {
             onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 200 }}
             onPressEnter={handleSearch}
+            allowClear
+            onClear={handleClear}
           />
           <Button type="primary" onClick={handleSearch}>
             Tìm kiếm

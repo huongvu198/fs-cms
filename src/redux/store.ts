@@ -7,6 +7,7 @@ import userReducer from "./userSlice";
 import voucherReducer from "./voucherSlice";
 import bankReducer from "./bankSlice";
 import orderReducer from "./orderSlice";
+import analyticReducer from "./analyticSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     voucher: voucherReducer,
     bank: bankReducer,
     order: orderReducer,
+    analytics: analyticReducer,
   },
 });
 

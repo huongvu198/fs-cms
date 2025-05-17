@@ -1,4 +1,4 @@
-import { Layout, theme } from "antd";
+import { Layout, Spin, theme } from "antd";
 
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { getMasterData } from "../redux/appSlice";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { getSegments } from "../redux/segmentSlice";
 
 const MainLayout = () => {
@@ -37,7 +37,9 @@ const MainLayout = () => {
             background: "#f0f2f5",
           }}
         >
-          <Outlet />
+          <Suspense fallback={<Spin size="large" fullscreen={true} />}>
+            <Outlet />
+          </Suspense>
         </Content>
       </Layout>
       <ToastContainer draggable draggableDirection="y" />

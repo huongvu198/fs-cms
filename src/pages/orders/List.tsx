@@ -1,4 +1,4 @@
-import { Button, Input, Space, Table, TableProps, Tooltip } from "antd";
+import { Button, Input, Space, Table, TableProps } from "antd";
 import { ListOrderProps } from "../../props/Orders/ListOrderProps";
 import { useSelector } from "react-redux";
 import {
@@ -7,14 +7,18 @@ import {
   getLoadingAction,
   getOrders,
   getPagination,
+  updateOrder,
 } from "../../redux/orderSlice";
 import { useEffect, useState } from "react";
 import { getDefaultPerPage } from "../../redux/appSlice";
 import { Order } from "../../interfaces/order.interface";
-import DateTag from "src/components/common/DateTagProps";
+import DateTag from "../../components/common/DateTagProps";
 import { FormattedNumber } from "react-intl";
-import { EyeOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { ModalOrderDetail } from "./FormModal";
+import { OrderStatusEnum, PaymentMethodEnum } from "../../shared/enum";
+import PaymentMethodTag from "../../components/common/PaymentMethodTag";
+import StatusTag from "../../components/common/StatusTag";
 
 const ListOrder = ({ dispatch }: ListOrderProps) => {
   const orders = useSelector(getOrders);
@@ -55,7 +59,22 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
     setSelectedOrder(null);
   };
 
-  const handleUpdateOrder = () => {};
+  const handleUpdateOrder = async (
+    status: OrderStatusEnum,
+    orderId: string
+  ) => {
+    const resultAction = await dispatch(updateOrder({ id: orderId, status }));
+
+    if (updateOrder.fulfilled.match(resultAction)) {
+      const updatedOrder = resultAction.payload as Order;
+      setSelectedOrder(updatedOrder);
+    }
+  };
+
+  const handleClear = () => {
+    setSearchText("");
+    fetchData(currentPage, perPage, "");
+  };
 
   const columns: TableProps<Order>["columns"] = [
     {
@@ -64,18 +83,26 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       key: "id",
     },
     {
+      title: "Khách hàng",
+      dataIndex: "userName",
+      key: "userName",
+      render: (_, record: Order) => <>{record.user.fullName}</>,
+    },
+    {
       title: "TT Đơn hàng",
       dataIndex: "status",
       key: "status",
       align: "center",
-      // render: (value: string) => renderTag(value, ORDER_STATUS_LABELS),
+      render: (_, record: Order) => <StatusTag status={record?.status!} />,
     },
     {
       title: "HT Thanh toán",
       dataIndex: "paymentMethod",
       key: "paymentMethod",
       align: "center",
-      // render: (value: string) => renderTag(value, PAYMENT_METHOD_LABELS),
+      render: (_, record: Order) => (
+        <PaymentMethodTag method={record?.paymentMethod as PaymentMethodEnum} />
+      ),
     },
     {
       title: "Tổng tiền",
@@ -94,6 +121,7 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       title: "TG Đặt hàng",
       dataIndex: "createdAt",
       key: "createdAt",
+      align: "center",
       render: (value: string) => <DateTag date={value} />,
     },
     {
@@ -101,7 +129,7 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       key: "action",
       align: "center",
       render: (_, record: Order) => (
-        <EyeOutlined onClick={() => handleViewDetail(record)} size={28} />
+        <EditOutlined onClick={() => handleViewDetail(record)} size={28} />
       ),
     },
   ];
@@ -118,25 +146,18 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       >
         <Space>
           <Input
-            placeholder={`Tìm kiếm tài khoản`}
+            placeholder={`Tìm kiếm đơn hàng`}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 200 }}
             onPressEnter={handleSearch}
+            allowClear
+            onClear={handleClear}
           />
           <Button type="primary" onClick={handleSearch}>
             Tìm kiếm
           </Button>
         </Space>
-
-        {/* <Tooltip title="Thêm mới">
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            onClick={openCreateModal}
-          />
-        </Tooltip> */}
       </div>
       <Table
         columns={columns}

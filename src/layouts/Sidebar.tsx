@@ -3,7 +3,7 @@ import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 // import { useTranslation } from "react-i18next";
 import useMenuItems from "../config/menuConfig";
-import logo from "../assets/logo.png";
+import { Dashboard } from "src/config/routeConfig";
 
 const { Sider } = Layout;
 
@@ -49,8 +49,8 @@ const Sidebar: React.FC = () => {
 
       <Menu
         mode="inline"
-        defaultSelectedKeys={["/dashboard"]}
-        defaultOpenKeys={["/profile"]}
+        defaultSelectedKeys={[Dashboard]}
+        defaultOpenKeys={[Dashboard]}
         items={menuItems}
         onClick={({ key }) => navigate(key)}
       />

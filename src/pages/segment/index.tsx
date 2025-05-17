@@ -47,6 +47,11 @@ const SegmentPage: React.FC = () => {
     fetchData(1, perPage, searchTerm);
   };
 
+  const handleClear = () => {
+    setCurrentPage(1);
+    fetchData(1, perPage, "");
+  };
+
   const columns: TableProps<any>["columns"] = [
     {
       title: "Tên hiển thị",
@@ -171,6 +176,8 @@ const SegmentPage: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ width: 200 }}
             onPressEnter={handleSearch}
+            allowClear
+            onClear={handleClear}
           />
 
           <Button type="primary" onClick={handleSearch}>

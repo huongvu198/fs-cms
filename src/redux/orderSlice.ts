@@ -3,8 +3,8 @@ import { Pagination } from "../interfaces/app.interface";
 import { authAxios } from "../config/axiosConfig";
 import endPoint from "../services";
 import { parsePaginationHeaders } from "../shared/common";
-import { showToast, ToastType } from "../shared/toast";
 import { Order } from "../interfaces/order.interface";
+import { OrderStatusEnum } from "src/shared/enum";
 
 interface OrderState {
   isLoading: boolean;
@@ -48,22 +48,27 @@ export const getListOrder = createAsyncThunk(
   }
 );
 
-// export const update = createAsyncThunk(
-//   "bank/update",
-//   async (args: { id: string; payload: CreateBank }, { rejectWithValue }) => {
-//     try {
-//       const { id, payload } = args;
+export const updateOrder = createAsyncThunk(
+  "orders/update",
+  async (
+    args: { id: string; status: OrderStatusEnum },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { id, status } = args;
 
-//       const response = await authAxios.patch(
-//         `${endPoint.BANK.UPDATE}/${id}`,
-//         payload
-//       );
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(error.response?.data?.message);
-//     }
-//   }
-// );
+      const response = await authAxios.patch(
+        `${endPoint.ORDERS.UPDATE}/${id}`,
+        {
+          status,
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "order",
@@ -71,7 +76,6 @@ const orderSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(getListOrder.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -83,6 +87,28 @@ const orderSlice = createSlice({
       })
       .addCase(getListOrder.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateOrder.pending, (state) => {
+        state.isLoadingAction = true;
+        state.error = null;
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.isLoadingAction = false;
+        const updatedOrder = action.payload;
+
+        const index = state.orders.findIndex(
+          (order) => order.id === updatedOrder.id
+        );
+
+        if (index !== -1) {
+          state.orders[index] = updatedOrder;
+        } else {
+          state.orders.push(updatedOrder);
+        }
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
+        state.isLoadingAction = false;
         state.error = action.payload as string;
       });
   },
