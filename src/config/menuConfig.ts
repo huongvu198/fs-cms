@@ -7,14 +7,14 @@ import {
   FileProtectOutlined,
   ShoppingOutlined,
   AreaChartOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import {
   Account,
   AccountAdmin,
   AccountUser,
+  Chat,
   Dashboard,
-  // Dashboard,
-  // MasterData,
   Orders,
   Payment,
   Product,
@@ -57,6 +57,11 @@ const useMenuItems = () => {
         key: Payment,
         icon: React.createElement(ProductOutlined),
         label: t("bank_management"),
+      },
+      {
+        key: Chat,
+        icon: React.createElement(MessageOutlined),
+        label: t("chat_management"),
       },
       {
         key: Account,

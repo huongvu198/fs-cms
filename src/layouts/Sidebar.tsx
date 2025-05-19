@@ -1,15 +1,16 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { useTranslation } from "react-i18next";
 import useMenuItems from "../config/menuConfig";
-import { Dashboard } from "src/config/routeConfig";
 
 const { Sider } = Layout;
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const menuItems = useMenuItems();
+  const location = useLocation();
+  const currentPath = location.pathname;
   // const { t, i18n } = useTranslation();
 
   // Hàm đổi ngôn ngữ
@@ -49,8 +50,8 @@ const Sidebar: React.FC = () => {
 
       <Menu
         mode="inline"
-        defaultSelectedKeys={[Dashboard]}
-        defaultOpenKeys={[Dashboard]}
+        defaultSelectedKeys={[currentPath]}
+        defaultOpenKeys={[currentPath]}
         items={menuItems}
         onClick={({ key }) => navigate(key)}
       />
