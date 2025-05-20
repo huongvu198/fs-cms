@@ -8,6 +8,7 @@ import voucherReducer from "./voucherSlice";
 import bankReducer from "./bankSlice";
 import orderReducer from "./orderSlice";
 import analyticReducer from "./analyticSlice";
+import chatReducer from "./chatSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     bank: bankReducer,
     order: orderReducer,
     analytics: analyticReducer,
+    chat: chatReducer,
   },
 });
 

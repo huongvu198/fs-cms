@@ -1,84 +1,86 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MainContainer,
   Sidebar,
   ConversationList,
   Conversation,
-  Avatar,
   ChatContainer,
   ConversationHeader,
-  MessageGroup,
   Message,
   MessageList,
   MessageInput,
-  TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import PageContent from "src/components/common/PageContent";
-import { Row, Col, Badge } from "antd";
-
-const conversations = [
-  {
-    id: "1",
-    name: "User 1",
-    avatar:
-      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-11.jpg",
-    messages: ["Hello", "How are you?"],
-    typing: false,
-    unread: 1,
-  },
-  {
-    id: "2",
-    name: "User 2",
-    avatar:
-      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-11.jpg",
-    messages: ["Hi", "I need support"],
-    typing: true,
-    unread: 1,
-  },
-  {
-    id: "3",
-    name: "User 3",
-    avatar:
-      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-11.jpg",
-    messages: ["Hey", "Can you help me?"],
-    typing: false,
-    unread: 2,
-  },
-];
+import PageContent from "../../components/common/PageContent";
+import { Row, Col } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import {
+  getConversations,
+  getMessages,
+  messagesByConverationIdSelector,
+  sessionsSelector,
+  setLastMessage,
+} from "../../redux/chatSlice";
+import { SocketEvent } from "../../shared/enum";
+import useSocket from "../../hooks/useSocket";
 
 const ChatManagement = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [activeConversationId, setActiveConversationId] = useState<
     string | null
   >(null);
-  const [messages, setMessages] = useState<{ [key: string]: string[] }>({
-    "1": ["Hello", "How are you?"],
-    "2": ["Hi", "I need support"],
-    "3": ["Hey", "Can you help me?"],
+  const reduxMessages = useSelector(messagesByConverationIdSelector);
+  const sessions = useSelector(sessionsSelector);
+  const [messages, setMessages] = useState(reduxMessages);
+
+  const { sendMessage } = useSocket({
+    [SocketEvent.NEW_MESSAGE]: (data) => {
+      setMessages((prev) => [...prev, data]);
+      dispatch(setLastMessage(data));
+    },
   });
-  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    setMessages(reduxMessages);
+  }, [reduxMessages]);
+
+  useEffect(() => {
+    if (activeConversationId) {
+      sendMessage(SocketEvent.JOIN_CONVERSATION, {
+        conversationId: activeConversationId,
+      });
+    }
+  }, [sendMessage, activeConversationId]);
 
   const handleConversationClick = (id: string) => {
     setActiveConversationId(id);
+    dispatch(getMessages(id));
   };
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim() || !activeConversationId) return;
+  useEffect(() => {
+    dispatch(getConversations());
+  }, []);
 
-    setMessages((prev) => ({
-      ...prev,
-      [activeConversationId]: [...prev[activeConversationId], inputValue],
-    }));
+  const handleSendMessage = (message: any) => {
+    const newMessage = {
+      conversationId: activeConversationId,
+      senderId: 10,
+      content: message,
+      isRead: false,
+    };
 
-    setInputValue("");
+    sendMessage(SocketEvent.SEND_MESSAGE, newMessage);
   };
 
-  const activeConversation = conversations.find(
+  const activeConversation = sessions.find(
     (conv) => conv.id === activeConversationId
   );
-  const activeMessages = activeConversationId
-    ? messages[activeConversationId]
-    : [];
+  // const activeMessages = activeConversationId
+  //   ? messages[activeConversationId]
+  //   : [];
+
+  console.log("messages", messages);
 
   return (
     <PageContent
@@ -92,7 +94,10 @@ const ChatManagement = () => {
         padding: 0,
       }}
     >
-      <Row gutter={32} style={{ height: "85vh", display: "flex" }}>
+      <Row
+        gutter={32}
+        style={{ height: "85vh", display: "flex", flexWrap: "nowrap" }}
+      >
         <Col
           span={6}
           style={{
@@ -110,13 +115,13 @@ const ChatManagement = () => {
             style={{ width: "96%", margin: "auto" }}
           >
             <ConversationList>
-              {conversations.map((conv) => (
+              {sessions.map((conv) => (
                 <Conversation
                   key={conv.id}
-                  name={conv.name}
+                  name={conv.client.fullName}
                   active={conv.id === activeConversationId}
                   onClick={() => handleConversationClick(conv.id)}
-                  unreadDot={true}
+                  unreadDot={conv.lastMessage.senderId !== 10 ? true : false}
                   style={{
                     position: "relative",
                     border:
@@ -132,9 +137,7 @@ const ChatManagement = () => {
                     color:
                       conv.id === activeConversationId ? "#1890ff" : "#1F1F1F",
                   }}
-                >
-                  <Avatar src={conv.avatar} name={conv.name} />
-                </Conversation>
+                />
               ))}
             </ConversationList>
           </Sidebar>
@@ -144,36 +147,38 @@ const ChatManagement = () => {
             {activeConversation ? (
               <ChatContainer style={{ flex: 1, width: "100%" }}>
                 <ConversationHeader>
-                  <Avatar
-                    src={activeConversation.avatar}
-                    name={activeConversation.name}
-                  />
                   <ConversationHeader.Content
-                    userName={activeConversation.name}
+                    userName={activeConversation.client.fullName}
                   />
                 </ConversationHeader>
 
                 <MessageList
-                  typingIndicator={
-                    activeConversation.typing ? (
-                      <TypingIndicator
-                        content={`${activeConversation.name} đang nhập...`}
-                      />
-                    ) : null
-                  }
+                  typingIndicator={null}
+                  style={{
+                    height: "100%",
+                    overflowY: "auto",
+                    paddingRight: 8,
+                  }}
                 >
-                  {activeMessages.map((msg, index) => (
-                    <MessageGroup key={index} direction="incoming">
-                      <Message>{msg}</Message>
-                    </MessageGroup>
+                  {messages.map((msg) => (
+                    <Message
+                      key={msg.id}
+                      model={{
+                        message: msg.content,
+                        sender: msg.senderName || "",
+                        direction:
+                          msg.senderId === Number(10!)
+                            ? "outgoing"
+                            : "incoming",
+                        position: "single",
+                      }}
+                    />
                   ))}
                 </MessageList>
 
                 <MessageInput
                   placeholder="Nhập tin nhắn..."
-                  attachButton
-                  value={inputValue}
-                  onChange={setInputValue}
+                  attachButton={false}
                   onSend={handleSendMessage}
                 />
               </ChatContainer>

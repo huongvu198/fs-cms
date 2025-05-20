@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import CMSRoutes from "./cms.router";
 
@@ -7,7 +7,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     // errorElement: <ErrorPage />,
-    children: [...CMSRoutes],
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/dashboard" replace />,
+      },
+      ...CMSRoutes,
+    ],
   },
   {
     path: "*",

@@ -59,6 +59,10 @@ const endPoint = {
     PRODUCTS: "analytics/product",
     INVENTORY: "analytics/inventory",
   },
+  CHAT: {
+    CONVERSATIONS: "chat/conversations",
+    GET_MESSAGES: "chat/:id/messages",
+  },
 };
 
 export default endPoint;
