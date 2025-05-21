@@ -9,11 +9,7 @@ import {
   Input,
   Modal,
 } from "antd";
-import {
-  EyeOutlined,
-  MedicineBoxOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import {
   archiveProduct,
@@ -138,10 +134,10 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
               onClick={() => navigate(ProductUpdate.replace(":id", record.id))}
             />
           </Tooltip>
-          <Tooltip title="Lưu trữ sản phẩm">
+          <Tooltip title="Xóa sản phẩm">
             <Button
               type="link"
-              icon={<MedicineBoxOutlined />}
+              icon={<DeleteOutlined />}
               danger
               onClick={() => handleArchived(record)}
             />

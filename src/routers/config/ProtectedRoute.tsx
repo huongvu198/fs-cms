@@ -23,6 +23,7 @@ export default function ProtectedRoute({ children }: IProtectedRoute) {
   if (auth.token) {
     const decodedToken = jwtDecode(auth.token);
     const currentTime = Date.now() / 1000;
+    console.log("decodedToken", decodedToken);
 
     if (!decodedToken.exp || decodedToken.exp < currentTime) {
       dispatch(clearAuth());

@@ -401,6 +401,7 @@ const Sale = forwardRef<SaleInfoRef>((_, ref) => {
           name="discount"
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 21 }}
+          hidden
           rules={[{ required: true, message: t("product_discount_required") }]}
         >
           <InputNumber

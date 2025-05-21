@@ -1,28 +1,62 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Card } from "antd";
+import { Form, Input, Button, Card } from "antd";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import { loginUser } from "../../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import { Dashboard } from "src/config/routeConfig";
 
 const SignIn: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const onFinish = async (values: any) => {
+    dispatch(loginUser(values));
+    const resultAction = await dispatch(loginUser(values));
+    if (loginUser.fulfilled.match(resultAction)) {
+      navigate(Dashboard);
+    }
   };
 
   return (
-    <Card title="Đăng nhập" style={{ width: 400 }}>
+    <Card style={{ width: 400 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "0 0 16px 0",
+          fontWeight: "bold",
+        }}
+      >
+        <span
+          className="brand-name"
+          style={{
+            fontSize: "28px",
+            fontWeight: 600,
+            fontFamily: "'Lobster', cursive",
+            color: "#d1567c",
+            cursor: "pointer",
+            userSelect: "none",
+            letterSpacing: "1.5px",
+          }}
+        >
+          Pinky
+        </span>
+      </div>
       <Form
         name="login"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         layout="vertical"
+        validateTrigger={["onBlur"]}
       >
         <Form.Item
-          label="Tài khoản"
-          name="username"
-          rules={[{ required: true, message: "Vui lòng nhập tài khoản!" }]}
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Vui lòng nhập email!" },
+            { type: "email", message: "Email không hợp lệ!" },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -30,13 +64,12 @@ const SignIn: React.FC = () => {
         <Form.Item
           label="Mật khẩu"
           name="password"
-          rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+          rules={[
+            { required: true, message: "Vui lòng nhập mật khẩu!" },
+            { min: 8, message: "Mật khẩu phải có ít nhất 8 ký tự!" },
+          ]}
         >
           <Input.Password />
-        </Form.Item>
-
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox>Ghi nhớ đăng nhập</Checkbox>
         </Form.Item>
 
         <Form.Item>

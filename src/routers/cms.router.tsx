@@ -35,7 +35,7 @@ const ChatsPage = Loadable(lazy(() => import("../pages/chat")));
 
 const CMSRoutes: RouteObject[] = [
   {
-    index: true,
+    path: Dashboard,
     element: <DashboardPage />,
   },
   {

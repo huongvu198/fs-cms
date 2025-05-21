@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { config } from "../config/envConfig";
 import { SocketEvent } from "../shared/enum";
+import { getUserId } from "../redux/authSlice";
+import { useSelector } from "react-redux";
 
 type EventCallback = (data: any) => void;
 const { socketURL } = config.server;
@@ -10,7 +12,7 @@ const useSocket = (handlers: Partial<Record<SocketEvent, EventCallback>>) => {
   const socketRef = useRef<Socket | null>(null);
   const handlersRef = useRef(handlers);
 
-  const userId = 10;
+  const userId = useSelector(getUserId);
 
   // Cập nhật handler mỗi khi thay đổi
   useEffect(() => {

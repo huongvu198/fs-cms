@@ -1,6 +1,6 @@
 const endPoint = {
   AUTH: {
-    LOGIN: `auth/user-login`,
+    LOGIN: `auth/email/login`,
     LOGOUT: `auth/logout`,
   },
   SEGMENT: {

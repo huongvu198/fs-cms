@@ -130,12 +130,13 @@ const authSlice = createSlice({
             role: decoded.role.id,
             id: decoded.id,
           };
-          showToast(ToastType.SUCCESS, "Login success");
+          state.isAuthenticated = true;
+          showToast(ToastType.SUCCESS, "Đăng nhập thành công");
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || "Login failed";
+        state.error = action.payload || "Đăng nhập thất bại";
         showToast(ToastType.ERROR, state.error);
       })
       .addCase(logoutUser.fulfilled, (state) => {
@@ -146,7 +147,7 @@ const authSlice = createSlice({
           tokenExpires: null,
           refreshExpires: null,
         };
-        showToast(ToastType.SUCCESS, "Logout success");
+        showToast(ToastType.SUCCESS, "Đăng xuất thành công");
       });
   },
 });
@@ -156,6 +157,7 @@ export const getLoadingLogin = (state: { auth: AuthState }) =>
   state.auth.isLoading;
 export const getErrorLogin = (state: { auth: AuthState }) => state.auth.error;
 export const getAuth = (state: { auth: AuthState }) => state.auth.auth;
+export const getUserId = (state: { auth: AuthState }) => state.auth.user?.id;
 
 export const { setAuth, clearAuth } = authSlice.actions;
 

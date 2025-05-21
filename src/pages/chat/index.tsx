@@ -24,6 +24,12 @@ import {
 } from "../../redux/chatSlice";
 import { SocketEvent } from "../../shared/enum";
 import useSocket from "../../hooks/useSocket";
+import { getUserId } from "../../redux/authSlice";
+import {
+  CloseOutlined,
+  CommentOutlined,
+  MessageOutlined,
+} from "@ant-design/icons";
 
 const ChatManagement = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,6 +39,7 @@ const ChatManagement = () => {
   const reduxMessages = useSelector(messagesByConverationIdSelector);
   const sessions = useSelector(sessionsSelector);
   const [messages, setMessages] = useState(reduxMessages);
+  const userId = useSelector(getUserId);
 
   const { sendMessage } = useSocket({
     [SocketEvent.NEW_MESSAGE]: (data) => {
@@ -65,7 +72,7 @@ const ChatManagement = () => {
   const handleSendMessage = (message: any) => {
     const newMessage = {
       conversationId: activeConversationId,
-      senderId: 10,
+      senderId: userId,
       content: message,
       isRead: false,
     };
@@ -76,11 +83,6 @@ const ChatManagement = () => {
   const activeConversation = sessions.find(
     (conv) => conv.id === activeConversationId
   );
-  // const activeMessages = activeConversationId
-  //   ? messages[activeConversationId]
-  //   : [];
-
-  console.log("messages", messages);
 
   return (
     <PageContent
@@ -121,7 +123,9 @@ const ChatManagement = () => {
                   name={conv.client.fullName}
                   active={conv.id === activeConversationId}
                   onClick={() => handleConversationClick(conv.id)}
-                  unreadDot={conv.lastMessage.senderId !== 10 ? true : false}
+                  unreadDot={
+                    conv.lastMessage.senderId !== userId ? true : false
+                  }
                   style={{
                     position: "relative",
                     border:
@@ -150,6 +154,12 @@ const ChatManagement = () => {
                   <ConversationHeader.Content
                     userName={activeConversation.client.fullName}
                   />
+                  <ConversationHeader.Actions>
+                    <CloseOutlined
+                      onClick={() => setActiveConversationId(null)}
+                      style={{ fontSize: 16, color: "#999", cursor: "pointer" }}
+                    />
+                  </ConversationHeader.Actions>
                 </ConversationHeader>
 
                 <MessageList
@@ -167,7 +177,7 @@ const ChatManagement = () => {
                         message: msg.content,
                         sender: msg.senderName || "",
                         direction:
-                          msg.senderId === Number(10!)
+                          msg.senderId === Number(userId!)
                             ? "outgoing"
                             : "incoming",
                         position: "single",
@@ -186,13 +196,32 @@ const ChatManagement = () => {
               <div
                 style={{
                   width: "100%",
-                  flex: 1,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  padding: "24px 0",
                 }}
               >
-                <div>Chọn một cuộc hội thoại để bắt đầu</div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <CommentOutlined style={{ fontSize: 46, color: "#999" }} />
+                  <div
+                    style={{
+                      marginTop: 12,
+                      fontSize: 16,
+                      color: "#555",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Chọn một cuộc hội thoại để bắt đầu
+                  </div>
+                </div>
               </div>
             )}
           </MainContainer>
