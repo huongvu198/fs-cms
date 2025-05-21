@@ -11,3 +11,4 @@ export const Payment = "/payment";
 export const Segment = "/segment";
 export const Orders = "/orders";
 export const Chat = "/chats";
+export const Login = "/login";

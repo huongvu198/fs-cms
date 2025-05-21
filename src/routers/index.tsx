@@ -1,19 +1,20 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import CMSRoutes from "./cms.router";
+import AuthRoutes from "./auth.router";
+import ProtectedRoute from "./config/ProtectedRoute";
 
 const router = createBrowserRouter([
+  AuthRoutes,
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     // errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/dashboard" replace />,
-      },
-      ...CMSRoutes,
-    ],
+    children: [...CMSRoutes],
   },
   {
     path: "*",

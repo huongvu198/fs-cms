@@ -4,3 +4,14 @@ export interface Pagination {
   perPage: number;
   totalItems: number;
 }
+
+export interface JWTPayload {
+  id: number;
+  role: {
+    id: number;
+    name: string;
+  };
+  sessionId: number;
+  iat: number;
+  exp: number;
+}

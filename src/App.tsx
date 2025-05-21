@@ -3,9 +3,10 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routers";
 import "./App.css";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { persistor, store } from "./redux/store";
 import "./config/i18nConfig";
 import { IntlProvider } from "react-intl";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   return (
@@ -19,9 +20,11 @@ function App() {
       }}
     >
       <Provider store={store}>
-        <IntlProvider locale="vi-VN">
-          <RouterProvider router={router} />
-        </IntlProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <IntlProvider locale="vi-VN">
+            <RouterProvider router={router} />
+          </IntlProvider>
+        </PersistGate>
       </Provider>
     </ConfigProvider>
   );

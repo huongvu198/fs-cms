@@ -5,26 +5,39 @@ import {
   ILoginRequest,
   IUser,
   IAuthResponse,
+  Auth,
 } from "../interfaces/auth.interface";
 import { showToast, ToastType } from "../shared/toast";
 import { getSessionIdFromToken } from "../shared/common";
+import { JWTPayload } from "../interfaces/app.interface";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthState {
   user: IUser | null;
-  token: string | null;
-  refreshToken: string | null;
-  tokenExpires: number | null;
   isLoading: boolean;
   error: string | null;
+  isAuthenticated: boolean;
+  auth: Auth;
+}
+
+interface ISetAuthPayloadParams {
+  token: string;
+  refreshToken: string;
+  tokenExpires: number;
+  refreshExpires: number;
 }
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem("authToken") || null,
-  refreshToken: localStorage.getItem("refreshToken") || null,
-  tokenExpires: Number(localStorage.getItem("tokenExpires")) || null,
   isLoading: false,
   error: null,
+  isAuthenticated: false,
+  auth: {
+    token: localStorage.getItem("authToken") || null,
+    refreshToken: localStorage.getItem("refreshToken") || null,
+    tokenExpires: Number(localStorage.getItem("tokenExpires")) || null,
+    refreshExpires: Number(localStorage.getItem("refreshExpires")) || null,
+  },
 };
 
 export const loginUser = createAsyncThunk<
@@ -38,9 +51,16 @@ export const loginUser = createAsyncThunk<
       credentials
     );
 
-    localStorage.setItem("authToken", response.data.token);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-    localStorage.setItem("tokenExpires", response.data.tokenExpires.toString());
+    localStorage.setItem("authToken", response.data.token!);
+    localStorage.setItem("refreshToken", response.data.refreshToken!);
+    localStorage.setItem(
+      "tokenExpires",
+      response.data.tokenExpires!.toString()
+    );
+    localStorage.setItem(
+      "refreshExpires",
+      response.data.refreshExpires!.toString()
+    );
 
     return response.data;
   } catch (error: any) {
@@ -70,7 +90,24 @@ export const logoutUser = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuth: (state, action: PayloadAction<ISetAuthPayloadParams>) => {
+      state.isAuthenticated = true;
+      state.auth = {
+        ...action.payload,
+      };
+    },
+
+    clearAuth: (state) => {
+      state.isAuthenticated = false;
+      state.auth = {
+        token: null,
+        refreshToken: null,
+        tokenExpires: null,
+        refreshExpires: null,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -80,11 +117,19 @@ const authSlice = createSlice({
       .addCase(
         loginUser.fulfilled,
         (state, action: PayloadAction<IAuthResponse>) => {
+          const decoded: JWTPayload = jwtDecode(action.payload.token!);
+
           state.isLoading = false;
-          state.token = action.payload.token;
-          state.refreshToken = action.payload.refreshToken;
-          state.tokenExpires = action.payload.tokenExpires;
-          state.user = action.payload.user;
+          state.auth = {
+            token: action.payload.token,
+            refreshToken: action.payload.refreshToken,
+            tokenExpires: action.payload.tokenExpires,
+            refreshExpires: action.payload.refreshExpires,
+          };
+          state.user = {
+            role: decoded.role.id,
+            id: decoded.id,
+          };
           showToast(ToastType.SUCCESS, "Login success");
         }
       )
@@ -95,9 +140,12 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
-        state.token = null;
-        state.refreshToken = null;
-        state.tokenExpires = null;
+        state.auth = {
+          token: null,
+          refreshToken: null,
+          tokenExpires: null,
+          refreshExpires: null,
+        };
         showToast(ToastType.SUCCESS, "Logout success");
       });
   },
@@ -107,8 +155,8 @@ export const getUserProfile = (state: { auth: AuthState }) => state.auth.user;
 export const getLoadingLogin = (state: { auth: AuthState }) =>
   state.auth.isLoading;
 export const getErrorLogin = (state: { auth: AuthState }) => state.auth.error;
-export const getToken = (state: { auth: AuthState }) => state.auth.token;
+export const getAuth = (state: { auth: AuthState }) => state.auth.auth;
 
-export const {} = authSlice.actions;
+export const { setAuth, clearAuth } = authSlice.actions;
 
 export default authSlice.reducer;
