@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Card } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { loginUser } from "../../../redux/authSlice";
+import { getIsAuth, loginUser } from "../../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Dashboard } from "src/config/routeConfig";
 
 const SignIn: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector(getIsAuth);
   const navigate = useNavigate();
   const onFinish = async (values: any) => {
     dispatch(loginUser(values));
@@ -16,6 +17,12 @@ const SignIn: React.FC = () => {
       navigate(Dashboard);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(Dashboard);
+    }
+  }, [isAuthenticated]);
 
   return (
     <Card style={{ width: 400 }}>

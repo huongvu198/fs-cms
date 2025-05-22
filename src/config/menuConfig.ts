@@ -8,6 +8,7 @@ import {
   ShoppingOutlined,
   AreaChartOutlined,
   MessageOutlined,
+  ReadOutlined,
 } from "@ant-design/icons";
 import {
   Account,
@@ -15,6 +16,7 @@ import {
   AccountUser,
   Chat,
   Dashboard,
+  News,
   Orders,
   Payment,
   Product,
@@ -62,6 +64,11 @@ const useMenuItems = () => {
         key: Chat,
         icon: React.createElement(MessageOutlined),
         label: t("chat_management"),
+      },
+      {
+        key: News,
+        icon: React.createElement(ReadOutlined),
+        label: t("news_management"),
       },
       {
         key: Account,

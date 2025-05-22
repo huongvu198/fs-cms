@@ -12,6 +12,7 @@ import bankReducer from "./bankSlice";
 import orderReducer from "./orderSlice";
 import analyticReducer from "./analyticSlice";
 import chatReducer from "./chatSlice";
+import newReducer from "./newSlice";
 
 // Persist config chỉ cho auth
 const authPersistConfig = {
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   analytics: analyticReducer,
   chat: chatReducer,
+  new: newReducer,
 });
 
 export const store = configureStore({

@@ -158,6 +158,8 @@ export const getLoadingLogin = (state: { auth: AuthState }) =>
 export const getErrorLogin = (state: { auth: AuthState }) => state.auth.error;
 export const getAuth = (state: { auth: AuthState }) => state.auth.auth;
 export const getUserId = (state: { auth: AuthState }) => state.auth.user?.id;
+export const getIsAuth = (state: { auth: AuthState }) =>
+  state.auth.isAuthenticated;
 
 export const { setAuth, clearAuth } = authSlice.actions;
 

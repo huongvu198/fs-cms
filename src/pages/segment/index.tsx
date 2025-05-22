@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Button, Input, Space, Table, TableProps, Tag, Tooltip } from "antd";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  CaretDownOutlined,
+  CaretUpOutlined,
+  DownOutlined,
+  EditOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import PageContent from "../../components/common/PageContent";
 import { Segment } from "../../interfaces/segment.interface";
 import { useDispatch, useSelector } from "react-redux";
@@ -158,6 +165,33 @@ const SegmentPage: React.FC = () => {
     setCurrentPage(page);
     if (pageSize) setPerPage(pageSize); // Update perPage if changed
   };
+  const customExpandIcon = ({
+    expanded,
+    onExpand,
+    record,
+  }: {
+    expanded: boolean;
+    onExpand: (record: any, e: React.MouseEvent<HTMLElement>) => void;
+    record: any;
+  }) => {
+    if (record.children && record.children.length > 0) {
+      return expanded ? (
+        <CaretUpOutlined
+          style={{ marginRight: 16 }}
+          onClick={(e) => onExpand(record, e)}
+        />
+      ) : (
+        <CaretDownOutlined
+          style={{ marginRight: 16 }}
+          onClick={(e) => onExpand(record, e)}
+        />
+      );
+    }
+
+    return (
+      <span style={{ display: "inline-block", width: 16, marginRight: 16 }} />
+    );
+  };
 
   return (
     <PageContent title="Danh sách phân khúc">
@@ -207,6 +241,9 @@ const SegmentPage: React.FC = () => {
           pageSize: perPage,
           total: pagination.totalItems,
           onChange: handlePaginationChange,
+        }}
+        expandable={{
+          expandIcon: customExpandIcon,
         }}
       />
       <SegmentModal

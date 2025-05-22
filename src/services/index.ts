@@ -63,6 +63,10 @@ const endPoint = {
     CONVERSATIONS: "chat/conversations",
     GET_MESSAGES: "chat/:id/messages",
   },
+  NEW: {
+    GET: `news`,
+    UPDATE: `news/update`,
+  },
 };
 
 export default endPoint;

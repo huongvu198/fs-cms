@@ -14,6 +14,7 @@ import {
   Segment,
   Orders,
   Chat,
+  News,
 } from "../config/routeConfig";
 
 const DashboardPage = Loadable(lazy(() => import("../pages/dashboard/index")));
@@ -32,6 +33,7 @@ const PaymentPage = Loadable(lazy(() => import("../pages/payments")));
 const SegmentPage = Loadable(lazy(() => import("../pages/segment")));
 const OrdersPage = Loadable(lazy(() => import("../pages/orders")));
 const ChatsPage = Loadable(lazy(() => import("../pages/chat")));
+const NewsPage = Loadable(lazy(() => import("../pages/news")));
 
 const CMSRoutes: RouteObject[] = [
   {
@@ -81,6 +83,10 @@ const CMSRoutes: RouteObject[] = [
   {
     path: Chat,
     element: <ChatsPage />,
+  },
+  {
+    path: News,
+    element: <NewsPage />,
   },
 ];
 
