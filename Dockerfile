@@ -2,22 +2,12 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install --force
-
-# Fix esbuild mismatch issue
-RUN npm rebuild esbuild
-
-# Optional: global serve tool
+# Optional: cài serve
 RUN npm i -g serve
 
-# Copy rest of the code
-COPY . .
+# Copy thư mục dist (chỉ file build)
+COPY dist/ ./dist
 
-# Build app
-RUN npm run build
-
-# Serve on port 3001
+# Serve build ở port 3001
 EXPOSE 3001
 CMD [ "serve", "-s", "dist", "-l", "3001" ]

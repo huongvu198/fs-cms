@@ -5,7 +5,7 @@ services:
     image: fs-cms
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     container_name: fs-cms
     ports:
       - 3001:3001
