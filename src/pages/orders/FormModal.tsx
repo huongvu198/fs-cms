@@ -3,13 +3,11 @@ import {
   Modal,
   Layout,
   Card,
-  Tag,
   Row,
   Col,
   Table,
   TableProps,
   Button,
-  Spin,
 } from "antd";
 import { OrderModalProps } from "../../props/Orders/OrderModalProps";
 import { useEffect } from "react";

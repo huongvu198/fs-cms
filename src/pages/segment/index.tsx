@@ -3,10 +3,8 @@ import { Button, Input, Space, Table, TableProps, Tag, Tooltip } from "antd";
 import {
   CaretDownOutlined,
   CaretUpOutlined,
-  DownOutlined,
   EditOutlined,
   PlusOutlined,
-  RightOutlined,
 } from "@ant-design/icons";
 import PageContent from "../../components/common/PageContent";
 import { Segment } from "../../interfaces/segment.interface";

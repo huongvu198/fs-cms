@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Form, Input, Button, Spin, Flex, Skeleton } from "antd";
+import { Form, Input, Button, Spin, Flex } from "antd";
 import PageContent from "../../components/common/PageContent";
 import { useDispatch, useSelector } from "react-redux";
 import {

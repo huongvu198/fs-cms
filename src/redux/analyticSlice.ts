@@ -10,7 +10,6 @@ import {
   TopProductItem,
 } from "../interfaces/analytic.interface";
 import { parsePaginationHeaders } from "src/shared/common";
-import { IPagingResponse } from "src/interfaces/axios.interface";
 
 interface AnalyticState {
   error: string | null;

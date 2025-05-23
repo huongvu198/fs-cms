@@ -33,15 +33,6 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
   const [perPage, setPerPage] = useState(useSelector(getDefaultPerPage));
   const [searchText, setSearchText] = useState("");
 
-  // const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-  const [filters, setFilters] = useState({
-    segment: undefined,
-    category: undefined,
-    subcategory: undefined,
-    isActive: undefined,
-    isOutOfStock: false,
-  });
-
   useEffect(() => {
     fetchData(currentPage, perPage, searchText);
   }, [currentPage, perPage]);

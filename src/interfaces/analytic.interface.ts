@@ -1,5 +1,4 @@
 import { RevenueType } from "src/shared/enum";
-import { IPagingResponse } from "./axios.interface";
 
 export interface RevenueItem {
   label: string;

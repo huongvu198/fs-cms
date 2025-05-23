@@ -25,11 +25,7 @@ import {
 import { SocketEvent } from "../../shared/enum";
 import useSocket from "../../hooks/useSocket";
 import { getUserId } from "../../redux/authSlice";
-import {
-  CloseOutlined,
-  CommentOutlined,
-  MessageOutlined,
-} from "@ant-design/icons";
+import { CloseOutlined, CommentOutlined } from "@ant-design/icons";
 
 const ChatManagement = () => {
   const dispatch = useDispatch<AppDispatch>();

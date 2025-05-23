@@ -2,9 +2,7 @@ import React, { useMemo } from "react";
 import { MenuProps } from "antd";
 import {
   UserOutlined,
-  LaptopOutlined,
   ProductOutlined,
-  FileProtectOutlined,
   ShoppingOutlined,
   AreaChartOutlined,
   MessageOutlined,

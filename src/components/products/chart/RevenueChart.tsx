@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,7 +11,7 @@ import {
   Legend,
   Chart as ChartJS,
 } from "chart.js";
-import { Select, Spin, DatePicker, Space } from "antd";
+import { Select, Spin, DatePicker } from "antd";
 import dayjs from "dayjs";
 
 import { AppDispatch } from "../../../redux/store";
