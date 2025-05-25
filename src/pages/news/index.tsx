@@ -104,6 +104,9 @@ const NewsManagement = () => {
                     "image",
                     "video",
                     "code-block",
+                    "align",
+                    "color",
+                    "background",
                   ]}
                   value={content}
                   onChange={setContent}
