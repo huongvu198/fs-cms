@@ -345,95 +345,101 @@ export const ModalOrderDetail = ({
                 </div>
               </Card>
             ) : null}
-            <Card
-              type="inner"
-              headStyle={{ color: "rgba(0, 0, 0, 0.50)", padding: 12 }}
-              bodyStyle={{ padding: 12 }}
-              style={{ marginTop: 16 }}
-            >
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
-                    Mã giao dịch
-                  </span>
-                  <span>{initialValues?.transactions?.data.code}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
-                    Ngân hàng
-                  </span>
-                  <span>{initialValues?.transactions?.data.gateway}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
-                    Số tài khoản
-                  </span>
-                  <span>{initialValues?.transactions?.data.accountNumber}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
-                    Ngày giao dịch
-                  </span>
-                  <span>
-                    {formatDateToVietnamese(
-                      initialValues?.transactions?.data.transactionDate!
-                    )}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>Số tiền</span>
-                  <span>
-                    <FormattedNumber
-                      value={Number(
-                        initialValues?.transactions?.data.transferAmount
+            {initialValues?.paymentMethod === PaymentMethodEnum.BANKING ? (
+              <Card
+                type="inner"
+                headStyle={{ color: "rgba(0, 0, 0, 0.50)", padding: 12 }}
+                bodyStyle={{ padding: 12 }}
+                style={{ marginTop: 16 }}
+              >
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
+                      Mã giao dịch
+                    </span>
+                    <span>{initialValues?.transactions?.data.code}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
+                      Ngân hàng
+                    </span>
+                    <span>{initialValues?.transactions?.data.gateway}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
+                      Số tài khoản
+                    </span>
+                    <span>
+                      {initialValues?.transactions?.data.accountNumber}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
+                      Ngày giao dịch
+                    </span>
+                    <span>
+                      {formatDateToVietnamese(
+                        initialValues?.transactions?.data.transactionDate!
                       )}
-                      style="currency"
-                      currency="VND"
-                    />
-                  </span>
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <span style={{ color: "rgba(0, 0, 0, 0.50)" }}>
+                      Số tiền
+                    </span>
+                    <span>
+                      <FormattedNumber
+                        value={Number(
+                          initialValues?.transactions?.data.transferAmount
+                        )}
+                        style="currency"
+                        currency="VND"
+                      />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            ) : null}
             <Row gutter={16} style={{ marginTop: 16 }}>
               {initialValues?.status !== OrderStatusEnum.CANCELLED ? (
                 <Col span={12}>
