@@ -12,10 +12,11 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import PageContent from "../../components/common/PageContent";
-import { Row, Col } from "antd";
+import { Row, Col, Empty, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import {
+  addSession,
   getConversations,
   getMessages,
   messagesByConverationIdSelector,
@@ -36,11 +37,16 @@ const ChatManagement = () => {
   const sessions = useSelector(sessionsSelector);
   const [messages, setMessages] = useState(reduxMessages);
   const userId = useSelector(getUserId);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const { sendMessage } = useSocket({
+  const { sendMessage, isConnected } = useSocket({
     [SocketEvent.NEW_MESSAGE]: (data) => {
       setMessages((prev) => [...prev, data]);
       dispatch(setLastMessage(data));
+    },
+    [SocketEvent.NEW_CONVERSATION]: (data) => {
+      console.log("SocketEvent.NEW_CONVERSATION", data);
+      dispatch(addSession(data));
     },
   });
 
@@ -62,6 +68,12 @@ const ChatManagement = () => {
   };
 
   useEffect(() => {
+    if (isConnected) {
+      sendMessage(SocketEvent.JOIN_ADMIN, {});
+    }
+  }, [isConnected]);
+
+  useEffect(() => {
     dispatch(getConversations());
   }, []);
 
@@ -78,6 +90,10 @@ const ChatManagement = () => {
 
   const activeConversation = sessions.find(
     (conv) => conv.id === activeConversationId
+  );
+
+  const filteredSessions = sessions.filter((conv) =>
+    conv.client.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -112,33 +128,49 @@ const ChatManagement = () => {
             scrollable
             style={{ width: "96%", margin: "auto" }}
           >
+            <Input
+              placeholder="Tìm kiếm liên hệ..."
+              allowClear
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: "100%",
+                marginBottom: 12,
+              }}
+            />
             <ConversationList>
-              {sessions.map((conv) => (
-                <Conversation
-                  key={conv.id}
-                  name={conv.client.fullName}
-                  active={conv.id === activeConversationId}
-                  onClick={() => handleConversationClick(conv.id)}
-                  unreadDot={
-                    conv.lastMessage.senderId !== userId ? true : false
-                  }
-                  style={{
-                    position: "relative",
-                    border:
-                      conv.id === activeConversationId
-                        ? "1px solid #1890ff"
-                        : "1px solid transparent",
-                    borderRadius: 8,
-                    padding: "8px",
-                    transition: "border 0.3s",
-                    marginBottom: 8,
-                    backgroundColor:
-                      conv.id === activeConversationId ? "#E6F7FF" : "#FFFFFF",
-                    color:
-                      conv.id === activeConversationId ? "#1890ff" : "#1F1F1F",
-                  }}
-                />
-              ))}
+              {filteredSessions.length > 0 ? (
+                filteredSessions.map((conv) => (
+                  <Conversation
+                    key={conv.id}
+                    name={conv.client.fullName}
+                    active={conv.id === activeConversationId}
+                    onClick={() => handleConversationClick(conv.id)}
+                    unreadDot={conv.lastMessage.senderId !== userId}
+                    style={{
+                      position: "relative",
+                      border:
+                        conv.id === activeConversationId
+                          ? "1px solid #1890ff"
+                          : "1px solid transparent",
+                      borderRadius: 8,
+                      padding: "8px",
+                      transition: "border 0.3s",
+                      marginBottom: 8,
+                      backgroundColor:
+                        conv.id === activeConversationId
+                          ? "#E6F7FF"
+                          : "#FFFFFF",
+                      color:
+                        conv.id === activeConversationId
+                          ? "#1890ff"
+                          : "#1F1F1F",
+                    }}
+                  />
+                ))
+              ) : (
+                <Empty description="Không có liên hệ hỗ trợ" />
+              )}
             </ConversationList>
           </Sidebar>
         </Col>

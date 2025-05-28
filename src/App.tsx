@@ -7,6 +7,7 @@ import { persistor, store } from "./redux/store";
 import "./config/i18nConfig";
 import { IntlProvider } from "react-intl";
 import { PersistGate } from "redux-persist/integration/react";
+import { SocketProvider } from "./providers/socketProvider";
 
 function App() {
   return (
@@ -22,7 +23,9 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <IntlProvider locale="vi-VN">
-            <RouterProvider router={router} />
+            <SocketProvider>
+              <RouterProvider router={router} />
+            </SocketProvider>
           </IntlProvider>
         </PersistGate>
       </Provider>

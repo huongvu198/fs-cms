@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { config } from "../config/envConfig";
 import { SocketEvent } from "../shared/enum";
@@ -13,6 +13,7 @@ const useSocket = (handlers: Partial<Record<SocketEvent, EventCallback>>) => {
   const handlersRef = useRef(handlers);
 
   const userId = useSelector(getUserId);
+  const [isConnected, setIsConnected] = useState(false);
 
   // Cập nhật handler mỗi khi thay đổi
   useEffect(() => {
@@ -30,10 +31,12 @@ const useSocket = (handlers: Partial<Record<SocketEvent, EventCallback>>) => {
 
     socket.on("connect", () => {
       console.log("✅ Socket.IO connected:", socket.id);
+      setIsConnected(true);
     });
 
     socket.on("disconnect", () => {
       console.log("❌ Socket.IO disconnected");
+      setIsConnected(false);
     });
 
     return () => {
@@ -74,7 +77,7 @@ const useSocket = (handlers: Partial<Record<SocketEvent, EventCallback>>) => {
     }
   };
 
-  return { sendMessage };
+  return { sendMessage, isConnected };
 };
 
 export default useSocket;

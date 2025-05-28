@@ -24,6 +24,11 @@ const NewsManagement = () => {
     dispatch(getNew());
   }, []);
 
+  useEffect(() => {
+    setTitle(newRedux.title);
+    setContent(newRedux.content);
+  }, [newRedux]);
+
   const handleSubmit = () => {
     const newsData = {
       title,
@@ -114,12 +119,14 @@ const NewsManagement = () => {
               </div>
             </Form.Item>
           </Form>
-          <Flex justify="end">
-            <Button type="primary" onClick={handleSubmit}>
-              Đăng bài
-            </Button>
-          </Flex>
         </>
+      </PageContent>
+      <PageContent bodySX={{ padding: "8px" }}>
+        <Flex justify="end">
+          <Button type="primary" onClick={handleSubmit}>
+            Đăng bài
+          </Button>
+        </Flex>
       </PageContent>
     </>
   );

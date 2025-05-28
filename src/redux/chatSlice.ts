@@ -73,6 +73,12 @@ const chatSlice = createSlice({
         };
       }
     },
+    addSession: (state, action) => {
+      const exists = state.chatSessions.find((s) => s.id === action.payload.id);
+      if (!exists) {
+        state.chatSessions.unshift(action.payload);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -111,7 +117,7 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setLastMessage } = chatSlice.actions;
+export const { setLastMessage, addSession } = chatSlice.actions;
 
 export const sessionsSelector = (state: { chat: ChatState }) =>
   state.chat.chatSessions;
