@@ -12,10 +12,12 @@ const endPoint = {
   CATEGORY: {
     CREATE: "products/create-category",
     UPDATE: "products/update-category/:id",
+    ALL: "products/all-category",
   },
   SUBCATEGORY: {
     CREATE: "products/create-subcategory",
     UPDATE: "products/update-subcategory/:id",
+    ALL: "products/all-subcategory",
   },
   PRODUCT: {
     CREATE: `products/create-product`,
@@ -66,6 +68,12 @@ const endPoint = {
   NEW: {
     GET: `news`,
     UPDATE: `news/update`,
+  },
+  EVENT: {
+    GET: "event/schedules",
+    CREATE: "event/schedule",
+    UPDATE: "event/schedule/:id",
+    DELETE: "event/schedule/:id",
   },
 };
 

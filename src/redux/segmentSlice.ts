@@ -25,6 +25,8 @@ interface SegmentState {
   loading: boolean;
   loadingAction: boolean;
   pagination: Pagination;
+  category: UpdateCategoryResponse[];
+  subcategory: UpdateSubCategoryResponse[];
 }
 
 const initialState: SegmentState = {
@@ -38,6 +40,8 @@ const initialState: SegmentState = {
     perPage: 10,
     totalItems: 0,
   },
+  category: [],
+  subcategory: [],
 };
 
 export const getSegmentWithPaging = createAsyncThunk(
@@ -175,6 +179,30 @@ export const updateSubCategory = createAsyncThunk(
   }
 );
 
+export const getAllCategory = createAsyncThunk(
+  "category/all-category",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await authAxios.get(endPoint.CATEGORY.ALL);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
+export const getAllSubCategory = createAsyncThunk(
+  "subcategory/all-subcategory",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await authAxios.get(endPoint.SUBCATEGORY.ALL);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
 const segmentSlice = createSlice({
   name: "segment",
   initialState,
@@ -193,6 +221,34 @@ const segmentSlice = createSlice({
         state.loading = false;
       })
       .addCase(createSegment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getAllCategory.fulfilled,
+        (state, action: PayloadAction<UpdateCategoryResponse[]>) => {
+          state.category = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(getAllCategory.rejected, (state) => {
+        showToast(ToastType.ERROR, "Lấy danh sách danh mục lỗi");
+        state.loading = false;
+      })
+      .addCase(getAllCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getAllSubCategory.fulfilled,
+        (state, action: PayloadAction<UpdateSubCategoryResponse[]>) => {
+          state.subcategory = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(getAllSubCategory.rejected, (state) => {
+        showToast(ToastType.ERROR, "Lấy danh sách danh mục phụ lỗi");
+        state.loading = false;
+      })
+      .addCase(getAllSubCategory.pending, (state) => {
         state.loading = true;
       })
       .addCase(getSegmentWithPaging.fulfilled, (state, action) => {
@@ -385,6 +441,12 @@ export const getListSegmentPaging = (state: { segment: SegmentState }) =>
 
 export const getPagination = (state: { segment: SegmentState }) =>
   state.segment.pagination;
+
+export const getListCategory = (state: { segment: SegmentState }) =>
+  state.segment.category;
+
+export const getListSubCategory = (state: { segment: SegmentState }) =>
+  state.segment.subcategory;
 
 export const {} = segmentSlice.actions;
 

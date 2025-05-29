@@ -54,3 +54,16 @@ export enum SocketEvent {
   NEW_CONVERSATION = "NEW_CONVERSATION",
   JOIN_ADMIN = "JOIN_ADMIN",
 }
+
+export enum DiscountEventEnum {
+  ALL_SHOP = "ALL_SHOP",
+  CATEGORY = "CATEGORY",
+  SUBCATEGORY = "SUBCATEGORY",
+}
+
+export enum EventStatusEnum {
+  IN_COMING = "IN_COMING",
+  ON_GOING = "ON_GOING",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}

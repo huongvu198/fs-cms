@@ -56,5 +56,7 @@
   "segment_list": "Danh sách danh mục",
   "manage_orders": "Quản lý đơn hàng",
   "chat_management": "Liên hệ hỗ trợ",
-  "news_management": "Quản lý tin tức"
+  "news_management": "Quản lý tin tức",
+  "schedule_management": "Sự kiện giảm giá",
+  "voucher_code": "Mã khuyến mãi"
 }

@@ -7,6 +7,7 @@ import {
   AreaChartOutlined,
   MessageOutlined,
   ReadOutlined,
+  GiftOutlined,
 } from "@ant-design/icons";
 import {
   Account,
@@ -14,10 +15,12 @@ import {
   AccountUser,
   Chat,
   Dashboard,
+  Discount,
   News,
   Orders,
   Payment,
   Product,
+  Schedules,
   Segment,
   Voucher,
 } from "./routeConfig";
@@ -49,9 +52,19 @@ const useMenuItems = () => {
         label: t("manage_orders"),
       },
       {
-        key: Voucher,
-        icon: React.createElement(ProductOutlined),
+        key: Discount,
+        icon: React.createElement(GiftOutlined),
         label: t("voucher_management"),
+        children: [
+          {
+            key: Schedules,
+            label: t("schedule_management"),
+          },
+          {
+            key: Voucher,
+            label: t("voucher_code"),
+          },
+        ],
       },
       {
         key: Payment,

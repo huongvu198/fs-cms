@@ -1,4 +1,4 @@
-import { VoucherType } from "./enum";
+import { DiscountEventEnum, VoucherType } from "./enum";
 
 export const VoucherTypeLabel: Record<VoucherType, string> = {
   [VoucherType.PERCENT]: "Giảm theo %",
@@ -121,4 +121,10 @@ export const BankShortNameMap: Record<number, string> = {
   970458: "United Overseas",
   970462: "KookminHN",
   970463: "KookminHCM",
+};
+
+export const EventTypeLabel: Record<DiscountEventEnum, string> = {
+  [DiscountEventEnum.ALL_SHOP]: "Toàn bộ sản phẩm",
+  [DiscountEventEnum.CATEGORY]: "Danh mục",
+  [DiscountEventEnum.SUBCATEGORY]: "Danh mục phụ",
 };
