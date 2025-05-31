@@ -50,6 +50,23 @@ export const loginUser = createAsyncThunk<
       credentials
     );
 
+    const decoded = jwtDecode<JWTPayload>(response.data.token);
+    if (decoded.role.name !== "Admin") {
+      return rejectWithValue("Bạn không có quyền truy cập");
+    }
+
+    // Nếu là admin thì lưu token
+    localStorage.setItem("authToken", response.data.token!);
+    localStorage.setItem("refreshToken", response.data.refreshToken!);
+    localStorage.setItem(
+      "tokenExpires",
+      response.data.tokenExpires!.toString()
+    );
+    localStorage.setItem(
+      "refreshExpires",
+      response.data.refreshExpires!.toString()
+    );
+
     localStorage.setItem("authToken", response.data.token!);
     localStorage.setItem("refreshToken", response.data.refreshToken!);
     localStorage.setItem(
