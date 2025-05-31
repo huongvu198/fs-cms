@@ -11,7 +11,6 @@ const SignIn: React.FC = () => {
   const isAuthenticated = useSelector(getIsAuth);
   const navigate = useNavigate();
   const onFinish = async (values: any) => {
-    dispatch(loginUser(values));
     const resultAction = await dispatch(loginUser(values));
     if (loginUser.fulfilled.match(resultAction)) {
       navigate(Dashboard);

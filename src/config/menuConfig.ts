@@ -8,6 +8,7 @@ import {
   MessageOutlined,
   ReadOutlined,
   GiftOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import {
   Account,
@@ -95,6 +96,11 @@ const useMenuItems = () => {
             label: t("account_user"),
           },
         ],
+      },
+      {
+        key: "logout",
+        icon: React.createElement(LogoutOutlined),
+        label: "Đăng xuất",
       },
       // {
       //   key: MasterData,

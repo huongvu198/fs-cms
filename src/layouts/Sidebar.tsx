@@ -1,8 +1,11 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { useTranslation } from "react-i18next";
 import useMenuItems from "../config/menuConfig";
+import { Login } from "../config/routeConfig";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { clearAuth, logoutUser } from "../redux/authSlice";
 
 const { Sider } = Layout;
 
@@ -11,15 +14,22 @@ const Sidebar: React.FC = () => {
   const menuItems = useMenuItems();
   const location = useLocation();
   const currentPath = location.pathname;
-  // const { t, i18n } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
 
-  // Hàm đổi ngôn ngữ
-  // const changeLanguage = (lng: string) => {
-  //   i18n.changeLanguage(lng);
-  // };
+  const handleLogout = () => {
+    navigate(Login);
+    dispatch(logoutUser());
+    dispatch(clearAuth());
+  };
 
   return (
-    <Sider width={250} style={{ background: "#fff", maxHeight: "100vh" }}>
+    <Sider
+      width={250}
+      style={{
+        background: "#fff",
+        maxHeight: "100vh",
+      }}
+    >
       <div
         style={{
           flex: 1,
@@ -48,20 +58,26 @@ const Sidebar: React.FC = () => {
         </span>
       </div>
 
-      <Menu
-        mode="inline"
-        defaultSelectedKeys={[currentPath]}
-        defaultOpenKeys={[currentPath]}
-        items={menuItems}
-        onClick={({ key }) => navigate(key)}
-      />
-
-      {/* <div style={{ textAlign: "center", padding: "16px" }}>
-        <Button onClick={() => changeLanguage("en")}>English</Button>
-        <Button onClick={() => changeLanguage("vi")} style={{ marginLeft: 8 }}>
-          Tiếng Việt
-        </Button>
-      </div> */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+        }}
+      >
+        <Menu
+          mode="inline"
+          defaultSelectedKeys={[currentPath]}
+          defaultOpenKeys={[currentPath]}
+          items={menuItems}
+          onClick={({ key }) => {
+            if (key === "logout") {
+              handleLogout();
+            } else {
+              navigate(key);
+            }
+          }}
+        />
+      </div>
     </Sider>
   );
 };

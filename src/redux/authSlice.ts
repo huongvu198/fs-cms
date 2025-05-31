@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { unauthAxios } from "../config/axiosConfig";
+import { authAxios, unauthAxios } from "../config/axiosConfig";
 import endPoint from "../services";
 import {
   ILoginRequest,
@@ -8,7 +8,6 @@ import {
   Auth,
 } from "../interfaces/auth.interface";
 import { showToast, ToastType } from "../shared/toast";
-import { getSessionIdFromToken } from "../shared/common";
 import { JWTPayload } from "../interfaces/app.interface";
 import { jwtDecode } from "jwt-decode";
 
@@ -72,10 +71,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const sessionId = getSessionIdFromToken();
-      await unauthAxios.post<IAuthResponse>(
-        `${endPoint.AUTH.LOGOUT}/${sessionId}`
-      );
+      await authAxios.post(endPoint.AUTH.LOGOUT);
 
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
