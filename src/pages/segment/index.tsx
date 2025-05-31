@@ -64,12 +64,28 @@ const SegmentPage: React.FC = () => {
       key: "name",
     },
     {
-      title: "Loại",
+      title: "Phân loại",
       dataIndex: "type",
       key: "type",
       align: "center",
       width: 200,
-      render: (type: string) => <Tag>{type}</Tag>,
+      render: (type: string) => {
+        let label = "";
+        switch (type) {
+          case "Segment":
+            label = "Phân khúc";
+            break;
+          case "Category":
+            label = "Thể loại";
+            break;
+          case "SubCategory":
+            label = "Thể loại phụ";
+            break;
+          default:
+            label = type;
+        }
+        return <Tag>{label}</Tag>;
+      },
     },
     {
       title: "Trạng thái",

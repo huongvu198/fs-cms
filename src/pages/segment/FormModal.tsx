@@ -141,7 +141,7 @@ const SegmentModal: React.FC<SegmentModalProps> = ({
         onClose();
       })
       .catch((info) => {
-        console.log("Validate Failed:", info);
+        console.error("Validate Failed:", info);
       });
   };
 

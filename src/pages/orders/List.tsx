@@ -81,6 +81,7 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       title: "Mã đơn hàng",
       dataIndex: "id",
       key: "id",
+      width: 180,
     },
     {
       title: "Khách hàng",

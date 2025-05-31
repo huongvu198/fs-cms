@@ -448,7 +448,8 @@ export const ModalOrderDetail = ({
                     danger
                     type="primary"
                     disabled={
-                      initialValues?.status !== OrderStatusEnum.PROCESSING
+                      initialValues?.status !== OrderStatusEnum.PROCESSING &&
+                      initialValues?.status !== OrderStatusEnum.CONFIRMED
                     }
                     onClick={() =>
                       onSubmit(OrderStatusEnum.CANCELLED, initialValues?.id!)

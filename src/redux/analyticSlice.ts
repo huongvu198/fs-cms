@@ -10,6 +10,7 @@ import {
   TopProductItem,
 } from "../interfaces/analytic.interface";
 import { parsePaginationHeaders } from "src/shared/common";
+import { showToast, ToastType } from "src/shared/toast";
 
 interface AnalyticState {
   error: string | null;
@@ -112,6 +113,22 @@ export const getInventory = createAsyncThunk(
   }
 );
 
+export const bulkUpdateDiscount = createAsyncThunk<
+  any,
+  { ids: string[]; discount: number },
+  { rejectValue: string }
+>("topProducts/blukUpdateDiscount", async (payload, { rejectWithValue }) => {
+  try {
+    const response = await authAxios.patch(
+      endPoint.PRODUCT.BULK_UPDATE_DISCOUNT,
+      payload
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data?.message);
+  }
+});
+
 const analyticSlice = createSlice({
   name: "analytics",
   initialState,
@@ -165,6 +182,20 @@ const analyticSlice = createSlice({
       .addCase(getInventory.rejected, (state, action) => {
         state.error = (action.payload as string) ?? "Lỗi không xác định";
         state.inventoryLoading = false;
+      })
+      .addCase(bulkUpdateDiscount.pending, (state) => {
+        state.inventoryLoading = true;
+        state.error = null;
+      })
+      .addCase(bulkUpdateDiscount.fulfilled, (state, action) => {
+        state.inventory = action.payload.items;
+        state.inventoryLoading = false;
+        showToast(ToastType.SUCCESS, "Cập nhật giảm giá thành công");
+      })
+      .addCase(bulkUpdateDiscount.rejected, (state, action) => {
+        state.error = (action.payload as string) ?? "Lỗi không xác định";
+        state.inventoryLoading = false;
+        showToast(ToastType.ERROR, action.payload as string);
       });
   },
 });

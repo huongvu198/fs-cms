@@ -47,7 +47,6 @@ const RevenueChart = () => {
 
   useEffect(() => {
     if (period === RevenueType.RANGE) {
-      console.log(range);
       if (range && range[0] && range[1]) {
         dispatch(
           getRevenueData({

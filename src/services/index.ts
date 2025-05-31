@@ -25,6 +25,7 @@ const endPoint = {
     ALL: `products/all`,
     ARCHIVE: `products/archive`,
     DETAIL: `products`,
+    BULK_UPDATE_DISCOUNT: "products/discount/bulk-update",
   },
   MASTER_DATA: {
     GET: `masters-data`,

@@ -243,7 +243,6 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
                       style={{ width: "25%" }}
                     />
                   </Form.Item>
-
                   <Form.Item
                     name={[sizeField.name, "isActive"]}
                     noStyle

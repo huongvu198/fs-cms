@@ -4,7 +4,6 @@ const { apiKey, baseUrl, clientId } = config.vietQR;
 
 // API để kiểm tra số tài khoản
 export const checkAccountInfo = async (accountNo: string, acqId: number) => {
-  console.log(apiKey, clientId);
   try {
     const response = await axios.post(
       `${baseUrl}/lookup`,

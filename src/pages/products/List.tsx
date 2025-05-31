@@ -86,9 +86,12 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
       key: "segment",
       render: (_, record) => (
         <Space>
-          <Tag color="blue">{record.segment.name}</Tag>
-          <Tag color="green">{record.segment.category.name}</Tag>
-          <Tag color="volcano">{record.segment.category.subCategory.name}</Tag>
+          <Tag color="volcano">
+            {record.segment.name} - {record.segment.category.name} -{" "}
+            {record.segment.category.subCategory.name}
+          </Tag>
+          {/* <Tag color="green">{record.segment.category.name}</Tag>
+          <Tag color="volcano">{record.segment.category.subCategory.name}</Tag> */}
         </Space>
       ),
     },
@@ -98,6 +101,14 @@ const ListProduct = ({ navigate, dispatch }: ListProductProps) => {
       key: "price",
       render: (price) => (
         <FormattedNumber value={price} style="currency" currency="VND" />
+      ),
+    },
+    {
+      title: "SL Sản phẩm",
+      dataIndex: "totalInventory",
+      key: "totalInventory",
+      render: (_, record) => (
+        <Tag color="blue">{record.totalInventory} Sản phẩm</Tag>
       ),
     },
     {

@@ -263,9 +263,10 @@ const segmentSlice = createSlice({
       .addCase(
         createSegment.fulfilled,
         (state, action: PayloadAction<Segment>) => {
-          state.segment.push(action.payload);
+          state.segmentPaging.unshift(action.payload);
         }
       )
+
       .addCase(createSegment.rejected, (_, action) => {
         showToast(
           ToastType.ERROR,
@@ -280,13 +281,13 @@ const segmentSlice = createSlice({
         (state, action: PayloadAction<CreateCategoryResponse>) => {
           const newCategory = action.payload;
 
-          const targetSegment = state.segment.find(
+          const targetSegment = state.segmentPaging.find(
             (seg) => seg.id === newCategory.segmentId
           );
 
           if (targetSegment) {
             if (Array.isArray(targetSegment.categories)) {
-              targetSegment.categories.push(newCategory);
+              targetSegment.categories.unshift(newCategory);
             } else {
               targetSegment.categories = [newCategory];
             }
@@ -307,7 +308,7 @@ const segmentSlice = createSlice({
         (state, action: PayloadAction<CreateSubCategoryResponse>) => {
           const newSubCategory = action.payload;
 
-          const targetSegment = state.segment.find(
+          const targetSegment = state.segmentPaging.find(
             (seg) => seg.id === newSubCategory.segmentId
           );
 
@@ -318,7 +319,7 @@ const segmentSlice = createSlice({
 
             if (targetCategory) {
               if (Array.isArray(targetCategory.subCategories)) {
-                targetCategory.subCategories.push(newSubCategory);
+                targetCategory.subCategories.unshift(newSubCategory);
               } else {
                 targetCategory.subCategories = [newSubCategory];
               }
@@ -339,7 +340,7 @@ const segmentSlice = createSlice({
       .addCase(
         updateSegment.fulfilled,
         (state, action: PayloadAction<Segment>) => {
-          state.segment = state.segment.map((segment) =>
+          state.segment = state.segmentPaging.map((segment) =>
             segment.id === action.payload.id
               ? { ...segment, ...action.payload }
               : segment
@@ -361,7 +362,7 @@ const segmentSlice = createSlice({
         (state, action: PayloadAction<UpdateCategoryResponse>) => {
           const updatedCategory = action.payload;
 
-          const targetSegment = state.segment.find(
+          const targetSegment = state.segmentPaging.find(
             (seg) => seg.id === updatedCategory.segmentId
           );
 
@@ -397,7 +398,7 @@ const segmentSlice = createSlice({
         (state, action: PayloadAction<UpdateSubCategoryResponse>) => {
           const updatedSubCategory = action.payload;
 
-          state.segment = state.segment.map((segment) => {
+          state.segment = state.segmentPaging.map((segment) => {
             const updatedCategories = segment.categories?.map((category) => {
               if (category.id === updatedSubCategory.categoryId) {
                 const updatedSubCategories = category.subCategories?.map(

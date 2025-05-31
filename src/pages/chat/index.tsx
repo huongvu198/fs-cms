@@ -45,7 +45,6 @@ const ChatManagement = () => {
       dispatch(setLastMessage(data));
     },
     [SocketEvent.NEW_CONVERSATION]: (data) => {
-      console.log("SocketEvent.NEW_CONVERSATION", data);
       dispatch(addSession(data));
     },
   });
