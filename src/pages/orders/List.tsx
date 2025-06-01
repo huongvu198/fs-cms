@@ -82,6 +82,9 @@ const ListOrder = ({ dispatch }: ListOrderProps) => {
       dataIndex: "id",
       key: "id",
       width: 180,
+      render: (value: string) => {
+        return value.toUpperCase();
+      },
     },
     {
       title: "Khách hàng",
