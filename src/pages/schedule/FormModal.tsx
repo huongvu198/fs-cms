@@ -24,7 +24,8 @@ const EventFormModal = ({
   initialValues,
   isLoadingAction = false,
   dispatch,
-}: EventModalProps) => {
+  readOnly = false,
+}: EventModalProps & { readOnly?: boolean }) => {
   const [form] = Form.useForm();
   const categoryRedux = useSelector(getListCategory);
   const subCategoryRedux = useSelector(getListSubCategory);
@@ -61,17 +62,19 @@ const EventFormModal = ({
 
   return (
     <Modal
-      title={initialValues ? "Cập nhật sự kiện" : "Tạo sự kiện"}
+      title={initialValues ? "Chi tiết sự kiện" : "Tạo sự kiện"}
       open={open}
       onCancel={onClose}
       onOk={() => {
-        form.submit();
+        if (!readOnly) form.submit();
+        else onClose();
       }}
       afterClose={() => {
         form.resetFields();
       }}
-      okText={initialValues ? "Lưu" : "Xác nhận"}
-      cancelText="Hủy"
+      okText={initialValues ? (readOnly ? "Đóng" : "Ok") : "Xác nhận"}
+      cancelText={readOnly ? null : "Hủy"}
+      cancelButtonProps={readOnly ? { style: { display: "none" } } : undefined}
       confirmLoading={isLoadingAction}
     >
       <Form form={form} layout="vertical" onFinish={onSubmit}>

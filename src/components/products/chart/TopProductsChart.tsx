@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   CategoryScale,
   LinearScale,
-  BarElement, // thêm BarElement
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -58,7 +58,7 @@ const TopProductsChart = () => {
         getTopProductsData({
           type: period,
           year: currentYear,
-          limit: 0,
+          limit: 15,
         })
       );
     }
@@ -95,6 +95,14 @@ const TopProductsChart = () => {
       },
     },
     scales: {
+      x: {
+        ticks: {
+          display: false, // 👈 Ẩn nhãn trục X
+        },
+        grid: {
+          display: false, // Tuỳ chọn: ẩn luôn lưới dọc nếu muốn
+        },
+      },
       y: {
         beginAtZero: true,
         ticks: {

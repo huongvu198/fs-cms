@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Tabs, Collapse, Button, FormInstance } from "antd";
+import { Collapse, Button, FormInstance } from "antd";
 import PageContent from "../../components/common/PageContent";
 import { useTranslation } from "react-i18next";
 import Basic from "../../components/products/update/Basic";
@@ -20,7 +20,6 @@ import { Product } from "../../config/routeConfig";
 const UpdateProduct = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState("1");
   const [activeKeys, setActiveKeys] = useState<string[]>(["1", "2"]);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -91,11 +90,6 @@ const UpdateProduct = () => {
 
   return (
     <PageContent title={t("product_update")}>
-      <Tabs activeKey={activeTab} onChange={setActiveTab}>
-        <Tabs.TabPane tab={t("product_info_basic")} key="1" />
-        <Tabs.TabPane tab={t("product_info_sale")} key="2" />
-      </Tabs>
-
       <Collapse activeKey={activeKeys} onChange={setActiveKeys}>
         <Collapse.Panel
           header={<TitleComponent text={t("product_info_basic")} level={5} />}

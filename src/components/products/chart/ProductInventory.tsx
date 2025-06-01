@@ -1,4 +1,4 @@
-import { Menu, Modal, InputNumber, Table, TableProps, Tag } from "antd";
+import { Menu, Modal, InputNumber, Table, TableProps, Tag, Layout } from "antd";
 import { FormattedNumber } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { IProductInventory } from "../../../interfaces/analytic.interface";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { AppDispatch } from "../../../redux/store";
 import { getDefaultPerPage } from "../../../redux/appSlice";
 import { MoreOutlined } from "@ant-design/icons";
+const { Content } = Layout;
 
 const ProductInventory = () => {
   const { data, loading, pagination } = useSelector(getInventorySelector);
@@ -165,8 +166,9 @@ const ProductInventory = () => {
   ];
 
   return (
-    <>
+    <Content style={{ backgroundColor: "#FFFFFF" }}>
       <Table
+        className="custom-pagination-table"
         rowKey="id"
         rowSelection={{
           selectedRowKeys,
@@ -208,7 +210,15 @@ const ProductInventory = () => {
           style={{ width: "100%" }}
         />
       </Modal>
-    </>
+
+      <style>
+        {`
+          .ant-table-wrapper .ant-table-pagination.ant-pagination {
+            margin-right: 16px;
+          }
+       `}
+      </style>
+    </Content>
   );
 };
 

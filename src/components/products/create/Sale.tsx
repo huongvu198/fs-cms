@@ -155,7 +155,7 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
   return (
     <Form.List
       name={[field.name, "sizes"]}
-      initialValue={[{ size: undefined, quantity: 1 }]}
+      initialValue={[{ size: undefined, quantity: undefined }]}
     >
       {(sizeFields, { add, remove }) => {
         // Lấy danh sách size đã chọn trong biến thể hiện tại
@@ -236,7 +236,7 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
                     name={[sizeField.name, "isActive"]}
                     noStyle
                     valuePropName="checked"
-                    initialValue={false}
+                    initialValue={true}
                   >
                     <Switch size="small" />
                   </Form.Item>
@@ -309,7 +309,7 @@ const VariantFields = () => {
                   name={[field.name, "isActive"]}
                   noStyle
                   valuePropName="checked"
-                  initialValue={false}
+                  initialValue={true}
                 >
                   <Switch size="small" />
                 </Form.Item>

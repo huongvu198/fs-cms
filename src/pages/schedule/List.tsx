@@ -11,7 +11,7 @@ import {
   Tag,
   Tooltip,
 } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import DateTag from "../../components/common/DateTagProps";
 import EventFormModal from "./FormModal";
 
@@ -40,6 +40,7 @@ const ListEvent = ({ dispatch }: ListEventProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedEvent, setSelectedEvent] =
     useState<Partial<DiscountEvent> | null>(null);
+  const [isReadOnly, setIsReadOnly] = useState(false);
 
   useEffect(() => {
     fetchData(currentPage, perPage, searchText);
@@ -67,15 +68,18 @@ const ListEvent = ({ dispatch }: ListEventProps) => {
   const openCreateModal = () => {
     setSelectedEvent(null);
     setOpenModal(true);
+    setIsReadOnly(false);
   };
 
   const openUpdateModal = (voucher: DiscountEvent) => {
     setSelectedEvent(voucher);
     setOpenModal(true);
+    setIsReadOnly(true);
   };
 
   const handleModalClose = () => {
     setOpenModal(false);
+    setIsReadOnly(true);
     setSelectedEvent(null);
   };
 
@@ -187,10 +191,10 @@ const ListEvent = ({ dispatch }: ListEventProps) => {
       render: (_, record) => (
         <Space>
           <>
-            <Tooltip title="Cập nhât sự kiện">
+            <Tooltip title="Xem chi tiết">
               <Button
                 type="link"
-                icon={<EditOutlined />}
+                icon={<EyeOutlined />}
                 onClick={() => openUpdateModal(record)}
               />
             </Tooltip>
@@ -265,6 +269,7 @@ const ListEvent = ({ dispatch }: ListEventProps) => {
         initialValues={selectedEvent || undefined}
         isLoadingAction={isLoadingAction}
         dispatch={dispatch}
+        readOnly={isReadOnly}
       />
     </>
   );

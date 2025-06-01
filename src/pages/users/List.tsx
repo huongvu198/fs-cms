@@ -30,8 +30,9 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import DateTag from "../../components/common/DateTagProps";
-import { UserType } from "src/shared/enum";
+import { UserType } from "../../shared/enum";
 import UserFormModal from "./FormModal";
+import { getUserId } from "../../redux/authSlice";
 
 const ListUser = ({ dispatch, type }: ListUserProps) => {
   const users = useSelector(getusers);
@@ -44,6 +45,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Partial<User> | null>(null);
   const [isViewMode, setIsViewMode] = useState(false);
+  const userId = useSelector(getUserId);
 
   useEffect(() => {
     fetchData(currentPage, perPage, searchText);
@@ -183,7 +185,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
       render: (_, record) => (
         <Space>
           {type === UserType.USER && (
-            <Tooltip title="Thông tin khách hàng">
+            <Tooltip title="Thông tin khách hàng" placement="left">
               <Button
                 type="link"
                 icon={<EyeOutlined />}
@@ -193,7 +195,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
           )}
           {type === UserType.ADMIN && (
             <>
-              <Tooltip title="Cập nhât quản trị viên">
+              <Tooltip title="Cập nhât quản trị viên" placement="left">
                 <Button
                   type="link"
                   icon={<EditOutlined />}
@@ -201,14 +203,16 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
                 />
               </Tooltip>
 
-              <Tooltip title="Xóa người dùng">
-                <Button
-                  type="link"
-                  icon={<DeleteOutlined />}
-                  danger
-                  onClick={() => handleDelete(record)}
-                />
-              </Tooltip>
+              {record.id !== userId && (
+                <Tooltip title="Xóa người dùng">
+                  <Button
+                    type="link"
+                    icon={<DeleteOutlined />}
+                    danger
+                    onClick={() => handleDelete(record)}
+                  />
+                </Tooltip>
+              )}
             </>
           )}
         </Space>
@@ -242,7 +246,7 @@ const ListUser = ({ dispatch, type }: ListUserProps) => {
         </Space>
 
         {type === UserType.ADMIN && (
-          <Tooltip title="Thêm mới quản trị viên">
+          <Tooltip title="Thêm mới quản trị viên" placement="left">
             <Button
               type="primary"
               shape="circle"

@@ -44,7 +44,11 @@ const UploadImage = ({ field }: { field: any }) => {
       }));
       setFileList(files);
     }
-  }, [form, field.name]);
+  }, [
+    form,
+    field.name,
+    form.getFieldValue(["variants", field.name, "images"]),
+  ]);
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -55,9 +59,8 @@ const UploadImage = ({ field }: { field: any }) => {
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    setFileList(newFileList.slice(-4)); // Giữ lại 4 ảnh duy nhất
+    setFileList(newFileList.slice(-4));
 
-    // Cập nhật giá trị vào `Form` để tránh lỗi validate
     form.setFieldValue(
       ["variants", field.name, "images"],
       newFileList.length > 0 ? newFileList : undefined
@@ -74,12 +77,11 @@ const UploadImage = ({ field }: { field: any }) => {
       rules={[{ required: true, message: "Please upload an image!" }]}
     >
       <Upload
-        // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        showUploadList={{ showRemoveIcon: false }} // Hide the "Remove" button
+        showUploadList={{ showRemoveIcon: false }}
       >
         {fileList.length < 4 && (
           <button style={{ border: 0, background: "none" }} type="button">
@@ -184,83 +186,95 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
         return (
           <>
             <Form.Item label={t("size&quantity")} required>
-              {sizeFields.map((sizeField) => (
-                <Flex
-                  key={sizeField.key}
-                  align="center"
-                  gap="small"
-                  style={{ paddingBottom: 10 }}
-                >
-                  <Form.Item
-                    name={[sizeField.name, "size"]}
-                    noStyle
-                    rules={[{ required: true, message: "Select size" }]}
-                    initialValue={undefined}
+              {sizeFields.map((sizeField) => {
+                // Lấy giá trị item hiện tại
+                const currentSizeItem = form.getFieldValue([
+                  "variants",
+                  field.name,
+                  "sizes",
+                  sizeField.name,
+                ]);
+
+                return (
+                  <Flex
+                    key={sizeField.key}
+                    align="center"
+                    gap="small"
+                    style={{ paddingBottom: 10 }}
                   >
-                    <Select
-                      placeholder={t("size")}
-                      style={{ width: "25%" }}
-                      allowClear
-                      showSearch
-                      optionFilterProp="children"
+                    <Form.Item
+                      name={[sizeField.name, "size"]}
+                      noStyle
+                      rules={[{ required: true, message: "Select size" }]}
+                      initialValue={undefined}
                     >
-                      <Select.OptGroup label={t("shirt_sizes")}>
-                        {shirtSizes.map((size: any) => (
-                          <Select.Option
-                            key={size.key}
-                            value={size.key}
-                            disabled={selectedSizes.includes(size.key)}
-                          >
-                            {size.value}
-                          </Select.Option>
-                        ))}
-                      </Select.OptGroup>
+                      <Select
+                        placeholder={t("size")}
+                        style={{ width: "25%" }}
+                        allowClear
+                        showSearch
+                        optionFilterProp="children"
+                      >
+                        <Select.OptGroup label={t("shirt_sizes")}>
+                          {shirtSizes.map((size: any) => (
+                            <Select.Option
+                              key={size.key}
+                              value={size.key}
+                              disabled={selectedSizes.includes(size.key)}
+                            >
+                              {size.value}
+                            </Select.Option>
+                          ))}
+                        </Select.OptGroup>
 
-                      {/* Chọn size quần */}
-                      <Select.OptGroup label={t("pants_sizes")}>
-                        {pantsSizes.map((size: any) => (
-                          <Select.Option
-                            key={size.key}
-                            value={size.key}
-                            disabled={selectedSizes.includes(size.key)}
-                          >
-                            {size.value}
-                          </Select.Option>
-                        ))}
-                      </Select.OptGroup>
-                    </Select>
-                  </Form.Item>
+                        <Select.OptGroup label={t("pants_sizes")}>
+                          {pantsSizes.map((size: any) => (
+                            <Select.Option
+                              key={size.key}
+                              value={size.key}
+                              disabled={selectedSizes.includes(size.key)}
+                            >
+                              {size.value}
+                            </Select.Option>
+                          ))}
+                        </Select.OptGroup>
+                      </Select>
+                    </Form.Item>
 
-                  <Form.Item
-                    name={[sizeField.name, "quantity"]}
-                    noStyle
-                    rules={[{ required: true, message: "Enter quantity" }]}
-                    initialValue={1}
-                  >
-                    <InputNumber
-                      placeholder={t("quantity")}
-                      min={1}
-                      style={{ width: "25%" }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={[sizeField.name, "isActive"]}
-                    noStyle
-                    valuePropName="checked"
-                    initialValue={false}
-                  >
-                    <Switch size="small" />
-                  </Form.Item>
+                    <Form.Item
+                      name={[sizeField.name, "quantity"]}
+                      noStyle
+                      rules={[{ required: true, message: "Enter quantity" }]}
+                      initialValue={1}
+                    >
+                      <InputNumber
+                        placeholder={t("quantity")}
+                        min={1}
+                        style={{ width: "25%" }}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name={[sizeField.name, "isActive"]}
+                      noStyle
+                      valuePropName="checked"
+                      initialValue={true}
+                    >
+                      <Switch size="small" />
+                    </Form.Item>
 
-                  <Button
-                    type="link"
-                    danger
-                    onClick={() => remove(sizeField.name)}
-                  >
-                    <MinusCircleOutlined style={{ fontSize: 16 }} />
-                  </Button>
-                </Flex>
-              ))}
+                    {/* Chỉ hiện nút xóa nếu item không có id */}
+                    {currentSizeItem?.isNew && (
+                      <Button
+                        type="link"
+                        danger
+                        onClick={() => remove(sizeField.name)}
+                      >
+                        <MinusCircleOutlined style={{ fontSize: 16 }} />
+                      </Button>
+                    )}
+                  </Flex>
+                );
+              })}
             </Form.Item>
 
             <Form.Item
@@ -270,7 +284,7 @@ const SizeQuantityFields = ({ field }: { field: any }) => {
               <Button
                 type="dashed"
                 onClick={() => {
-                  add({ id: uuidv4(), isActive: false });
+                  add({ id: uuidv4(), isActive: true, isNew: true });
                 }}
                 icon={<PlusOutlined />}
                 disabled={selectedSizes.length >= shirtSizes.length}
@@ -319,6 +333,7 @@ const VariantFields = () => {
                     name={[field.name, "isActive"]}
                     noStyle
                     valuePropName="checked"
+                    initialValue={true}
                   >
                     <Switch size="small" />
                   </Form.Item>

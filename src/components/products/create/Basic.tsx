@@ -53,7 +53,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
       wrapperCol={{ span: 21 }}
       layout="horizontal"
       style={{ maxWidth: "100%", width: "100%", marginTop: "20px" }}
-      initialValues={{ price: 10000 }}
+      initialValues={{ price: undefined }}
     >
       <Form.Item
         label={t("product_name")}
@@ -155,7 +155,7 @@ const Basic = forwardRef<BasicInfoRef>((_, ref) => {
         label={t("product_display")}
         name="isActive"
         valuePropName="checked"
-        initialValue={false}
+        initialValue={true}
       >
         <Switch size="small" />
       </Form.Item>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Tabs, Collapse, Button, FormInstance } from "antd";
+import { Collapse, Button, FormInstance } from "antd";
 import PageContent from "../../components/common/PageContent";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import Basic from "../../components/products/create/Basic";
 
 const AddProduct = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState("1");
+  const [_, setActiveTab] = useState("1");
   const [activeKeys, setActiveKeys] = useState<string[]>(["1"]);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -34,38 +34,16 @@ const AddProduct = () => {
       await basicInfoFormRef.current?.validateFields();
       await saleInfoFormRef.current?.validateFields();
 
-      // Gọi getFieldsValue để lấy dữ liệu đã upload ảnh
       const saleInfoData = await saleInfoFormRef.current?.getFieldsValue();
       const basicInfoData = await basicInfoFormRef.current?.getFieldsValue();
 
       if (!basicInfoData || !saleInfoData) return;
 
-      // Gửi dữ liệu lên server
       const finalData = { ...basicInfoData, ...saleInfoData };
       await dispatch(createProduct(finalData));
       navigate(Product);
     } catch (error) {
       console.error("Lỗi khi submit form:", error);
-    }
-  };
-
-  const onChangeTab = (key: string) => {
-    if (key === "1") {
-      setActiveTab("1");
-      setActiveKeys(["1"]);
-      refBasicInfo.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    } else if (key === "2") {
-      setActiveTab("2");
-      setActiveKeys(["1", "2"]);
-      setTimeout(() => {
-        refSaleInfo.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 300);
     }
   };
 
@@ -96,13 +74,6 @@ const AddProduct = () => {
 
   return (
     <PageContent title={t("product_add")}>
-      {/* Tabs giữ nguyên */}
-      <Tabs activeKey={activeTab} onChange={onChangeTab}>
-        <Tabs.TabPane tab={t("product_info_basic")} key="1" />
-        <Tabs.TabPane tab={t("product_info_sale")} key="2" />
-      </Tabs>
-
-      {/* Nội dung hiển thị bằng Collapse */}
       <Collapse
         activeKey={activeKeys}
         onChange={(keys) => {

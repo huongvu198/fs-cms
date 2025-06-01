@@ -79,8 +79,13 @@ export const ModalOrderDetail = ({
       dataIndex: "price",
       key: "price",
       align: "center",
-
-      render: (_, record) => `${record?.product?.discount}%`,
+      render: (_, record) => {
+        const price = Number(record?.product?.price);
+        const subtotal = Number(record?.subtotal);
+        if (!price || price === 0) return "0%";
+        const discountPercent = ((price - subtotal) / price) * 100;
+        return `${discountPercent.toFixed(2)}%`;
+      },
     },
     {
       title: "Tổng Tiền",
