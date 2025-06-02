@@ -36,13 +36,30 @@ const UploadImage = ({ field }: { field: any }) => {
   useEffect(() => {
     const images = form.getFieldValue(["variants", field.name, "images"]);
     if (Array.isArray(images)) {
-      const files: UploadFile[] = images.map((img, index) => ({
-        uid: img.id || `db-${index}`,
-        name: `image-${index}.png`,
-        status: "done",
-        url: img.url,
-      }));
-      setFileList(files);
+      const convertImages = async () => {
+        const files: UploadFile[] = await Promise.all(
+          images.map(async (img: any, index: number) => {
+            let thumbUrl: string | undefined = undefined;
+
+            if (!img.url && img.originFileObj) {
+              thumbUrl = await getBase64(img.originFileObj as FileType);
+            }
+
+            return {
+              uid: img.id?.toString() || `db-${index}`,
+              name: img.name || `image-${index}.png`,
+              status: "done",
+              url: img.url,
+              thumbUrl,
+              originFileObj: img.originFileObj,
+            };
+          })
+        );
+
+        setFileList(files);
+      };
+
+      convertImages();
     }
   }, [
     form,
@@ -82,6 +99,9 @@ const UploadImage = ({ field }: { field: any }) => {
         onPreview={handlePreview}
         onChange={handleChange}
         showUploadList={{ showRemoveIcon: false }}
+        maxCount={4}
+        multiple
+        beforeUpload={() => false}
       >
         {fileList.length < 4 && (
           <button style={{ border: 0, background: "none" }} type="button">
